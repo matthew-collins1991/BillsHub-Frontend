@@ -73,7 +73,7 @@ const Sidebar = ({ ...props }) => {
   var brand = (
     <div className={classes.logo}>
       <a
-        href="https://www.downatthemac.proboards.com"
+        href="/admin/dashboard"
         className={classNames(classes.logoLink)}
       >
         <div className={classes.logoImage}>

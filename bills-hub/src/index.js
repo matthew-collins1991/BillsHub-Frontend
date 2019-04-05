@@ -5,6 +5,8 @@ import { Router, Route, Switch, Redirect } from "react-router-dom";
 
 // core components
 import Admin from "layouts/Admin.jsx";
+import Login from "views/Login/Login"
+import SignUp from "views/SignUp/SignUp"
 
 
 import "assets/css/material-dashboard-react.css?v=1.6.0";
@@ -15,7 +17,9 @@ ReactDOM.render(
   <Router history={hist}>
     <Switch>
       <Route path="/admin" component={Admin} />
-      <Redirect from="/" to="/admin/dashboard" />
+      <Route path="/signup" component={SignUp} />
+      <Route path="/login" component={Login} />
+      <Redirect from="/" to="/signup" />
     </Switch>
   </Router>,
   document.getElementById("root")

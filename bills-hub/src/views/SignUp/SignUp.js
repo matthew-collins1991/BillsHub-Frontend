@@ -1,7 +1,8 @@
+
+
 import React from "react";
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
-import InputLabel from "@material-ui/core/InputLabel";
 // core components
 import GridItem from "components/Grid/GridItem.jsx";
 import GridContainer from "components/Grid/GridContainer.jsx";
@@ -11,6 +12,8 @@ import Card from "components/Card/Card.jsx";
 import CardHeader from "components/Card/CardHeader.jsx";
 import CardBody from "components/Card/CardBody.jsx";
 import CardFooter from "components/Card/CardFooter.jsx";
+import { NavLink } from "react-router-dom"
+
 
 const styles = {
   cardCategoryWhite: {
@@ -31,25 +34,29 @@ const styles = {
   }
 };
 
-function UserContainer(props) {
+
+
+function SignUp(props) {
   const { classes } = props;
-  const { userInfo } = props;
   return (
     <div>
       <GridContainer>
-      <GridItem xs={false} sm={1} md={2} />
-        <GridItem xs={12} sm={10} md={8}>
+        <GridItem xs={12} sm={12} md={8}>
           <Card>
-            <CardHeader color="primary">
-              <h4 className={classes.cardTitleWhite}>{userInfo.name}</h4>
-              <p className={classes.cardCategoryWhite}>Your profile</p>
-            </CardHeader>
+          <CardHeader color="primary">
+          <h4 className={classes.cardTitleWhite}>Sign Up</h4>
+          <p className={classes.cardCategoryWhite}>
+            If you have an account, log in{" "}
+            <a href="/login" style={{color: "white"}}>
+              here
+            </a>
+          </p>
+        </CardHeader>
             <CardBody>
             <GridContainer>
                 <GridItem xs={12} sm={12} md={6}>
                   <CustomInput
                     labelText="First Name"
-                    value="Hello Bitches"
                     id="first-name"
                     formControlProps={{
                       fullWidth: true
@@ -89,16 +96,29 @@ function UserContainer(props) {
                   />
                 </GridItem>
               </GridContainer>
+              <GridContainer>
+                <GridItem xs={12} sm={12} md={12}>
+                  <CustomInput
+                    type="password"
+                    labelText="Confirm Password"
+                    id="confirm-password"
+                    formControlProps={{
+                      fullWidth: true
+                    }}
+                  />
+                </GridItem>
+              </GridContainer>
             </CardBody>
             <CardFooter>
-              <Button color="primary">Update Profile</Button>
+                <NavLink to="/admin/bills" >
+              <Button color="primary">Sign Up</Button>
+                </NavLink>
             </CardFooter>
           </Card>
         </GridItem>
-        <GridItem xs={false} sm={1} md={2} />
       </GridContainer>
     </div>
   );
 }
 
-export default withStyles(styles)(UserContainer);
+export default withStyles(styles)(SignUp);
