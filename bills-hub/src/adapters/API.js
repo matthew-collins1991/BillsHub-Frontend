@@ -14,7 +14,6 @@ class API {
   }
 
   static signUp(user){
-    console.log(user)
     return fetch(`${baseUrl}signup`, {
       method: "POST",
       headers: {
@@ -31,7 +30,22 @@ class API {
   static get(url) {
     return fetch(url).then(response => response.json());
   }
+
+  static updateUser(user) {
+    console.log(user)
+    return fetch(`${baseUrl}admin/user`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(user)
+    }).then(response => response.json());
+  }
+
+
+
 }
+
 
 window.API = API;
 

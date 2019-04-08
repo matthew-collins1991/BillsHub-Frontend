@@ -12,6 +12,7 @@ import CardHeader from "components/Card/CardHeader.jsx";
 import CardBody from "components/Card/CardBody.jsx";
 import CardFooter from "components/Card/CardFooter.jsx";
 import API from "../../adapters/API";
+import TextField from '@material-ui/core/TextField';
 
 const styles = {
   cardCategoryWhite: {
@@ -29,25 +30,27 @@ const styles = {
     fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
     marginBottom: "3px",
     textDecoration: "none"
-  }
+  },
 };
 
-class UserContainer extends React.Component{
+class NewBillCard extends React.Component{
 
   state = {
-    disabled: true,
-    name: '',
-    email: '',
+    companyName: '',
+    utilityType: '',
+    startDate: '',
+    renewalDate: '',
     location: '',
     age: '',
-    houseSize: ''
+    houseSize: '',
+    cost: '',
+    paymentType: '',
+    paymentFreq: '',
   }
 
   componentWillMount(){
     const { userInfo } = this.props;
     this.setState({
-    name: userInfo.name,
-    email: userInfo.email,
     location: userInfo.location,
     age: userInfo.age,
     houseSize: userInfo.house_size
@@ -95,146 +98,134 @@ class UserContainer extends React.Component{
   handleChange = event =>
   this.setState({ [event.target.name]: event.target.value });
 
-  handleFirstNameChange = event => {
-    const lastName = this.state.name.split(" ")[1]
-    this.setState({
-      name: event.target.value + " " + lastName
-    })
-  }
-
-  handleLastNameChange = event => {
-    const firstName = this.state.name.split(" ")[0]
-    this.setState({
-      name:  firstName + " " + event.target.value
-    })
-  }
-
 render() {
   const { classes,userInfo } = this.props;
-  const { name,email,location,age,houseSize, disabled } = this.state;
+//   const { companyName, utilityType, startDate, renewalDate, location, age, houseSize, cost, paymentType, paymentFreq } = this.state;
   const { handleChange } = this;
   return (
     <div>
       <GridContainer>
+          {/* grid item to add padding to user form */}
       <GridItem xs={false} sm={1} md={2} />
         <GridItem xs={12} sm={10} md={8}>
           <Card>
             <CardHeader color="primary">
-              <h4 className={classes.cardTitleWhite}>{userInfo.name}</h4>
-              <p className={classes.cardCategoryWhite}>Your profile</p>
+              <h4 className={classes.cardTitleWhite}>New Bill</h4>
+              <p className={classes.cardCategoryWhite}>Fill out the bill details below:</p>
             </CardHeader>
             <CardBody>
             <GridContainer>
                 <GridItem xs={12} sm={12} md={6}>
                   <CustomInput
-                    labelText="First Name"
-                    id="first-name"
+                    labelText="Company Name"
+                    id="company-name"
                     formControlProps={{
                       fullWidth: true
                     }}
                     inputProps={{
-                      disabled: disabled,
-                      defaultValue: name.split(" ")[0],
-                      name: "firstName",
-                      onChange: this.handleFirstNameChange
+                      name: "companyName",
+                      onChange: handleChange
                     }}
                   />
                 </GridItem>
                 <GridItem xs={12} sm={12} md={6}>
                   <CustomInput
-                    labelText="Last Name"
-                    id="last-name"
+                    labelText="Utility Type"
+                    id="utility-type"
                     formControlProps={{
                       fullWidth: true
                     }}
                     inputProps={{
-                      disabled: disabled,
-                      defaultValue: name.split(" ")[1],
-                      name: "lastName",
+                      name: "utilityType",
                       onChange: this.handleLastNameChange
                     }}
                   />
                 </GridItem>
               </GridContainer>
               <GridContainer>
-                <GridItem xs={12} sm={12} md={12}>
+                <GridItem xs={12} sm={12} md={6}>
                   <CustomInput
-                    labelText="Email address"
-                    id="email-address"
+                    labelText="Start Date"
+                    id="start-date"
                     formControlProps={{
                       fullWidth: true
                     }}
                     inputProps={{
-                      disabled: disabled,
-                      defaultValue: email,
-                      name: "email",
+                      name: "startDate",
                       onChange: handleChange
                     }}
                   />
+                </GridItem>
+                <GridItem xs={12} sm={12} md={6}>
+                  
+                     <TextField
+                     id="renewal-date"
+                     label="Renewal Date"
+                     type="date"
+                     defaultValue="2017-05-24"
+                     className={classes.textField}
+                     InputLabelProps={{
+                       shrink: true,
+                       name: "renewalDate",
+                      onChange: handleChange
+                     }}
+                   />
+                  
                 </GridItem>
               </GridContainer>
               <GridContainer>
                 <GridItem xs={12} sm={12} md={4}>
                   <CustomInput
                     
-                    labelText="Location"
-                    id="location"
+                    labelText="Cost"
+                    id="cost"
                     formControlProps={{
                       fullWidth: true,
                     }}
                     inputProps={{
-                      disabled: disabled,
-                      defaultValue: location, 
-                      name: "location",
-                      onChange: handleChange
+                      name: "cost",
+                      onChange: handleChange,
+                      type: "number"
                     }}
                   />
                 </GridItem>
                 <GridItem xs={12} sm={12} md={4}>
                   <CustomInput
                     
-                    labelText="No. of Bedrooms"
-                    id="house-size"
+                    labelText="Payment Type"
+                    id="payment-type"
                     formControlProps={{
                       fullWidth: true,
                     }}
                     inputProps={{
-                      disabled: disabled,
-                      defaultValue: houseSize, 
-                      name: "houseSize",
-                      onChange: handleChange 
+                      name: "paymentType",
+                      onChange: handleChange ,
+                      type: "select"
                     }}
                   />
                 </GridItem>
                 <GridItem xs={12} sm={12} md={4}>
                   <CustomInput
                     
-                    labelText="Age"
-                    id="age"
+                    labelText="Payment Frequency"
+                    id="payment-frequency"
                     formControlProps={{
                       fullWidth: true,
                     }}
                     inputProps={{
-                      disabled: disabled,
-                      defaultValue: age
+                        name: "paymentFreq",
+                      onChange: handleChange,
+                    
                     }}
                   />
                 </GridItem>
               </GridContainer>
             </CardBody>
             <CardFooter>
-                {    disabled ?
-                <GridItem >
-              <Button color="primary" onClick={this.handleEditClick}>Edit Profile</Button>
-              </GridItem>
-              :
-              <>
-              <GridItem >
-              <Button color="primary" onClick={this.handleUpdateClick}>Update Profile</Button>
-              <Button color="info" onClick={this.handleCancelClick}>Cancel Changes</Button>
-              </GridItem>
-              </>
-                }
+            <GridItem style={{display: "contents"}}>
+              <Button color="primary" onClick={this.handleUpdateClick}>Submit New Bill</Button>
+              <Button color="info" onClick={this.handleCancelClick} style={{float: "right"}}>Back</Button>
+            </GridItem>
             </CardFooter>
           </Card>
         </GridItem>
@@ -246,4 +237,4 @@ render() {
 }
 }
 
-export default withStyles(styles)(UserContainer);
+export default withStyles(styles)(NewBillCard);

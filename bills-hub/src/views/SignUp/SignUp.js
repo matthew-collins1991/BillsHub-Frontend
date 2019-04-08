@@ -138,12 +138,14 @@ render(){
               <GridContainer>
                 <GridItem xs={12} sm={12} md={12}>
                   <CustomInput
-                    type="password"
                     labelText="Password"
                     id="password"
                     formControlProps={{
                       fullWidth: true,
                       onChange: this.handlePasswordChange,
+                    }}
+                    inputProps={{
+                      type: "password"
                     }}
                   />
                 </GridItem>
@@ -151,11 +153,13 @@ render(){
               <GridContainer>
                 <GridItem xs={12} sm={12} md={12}>
                   <CustomInput
-                    type="password"
                     labelText="Confirm Password"
                     id="confirm-password"
                     formControlProps={{
                       fullWidth: true
+                    }}
+                    inputProps={{
+                      type: "password"
                     }}
                   />
                 </GridItem>

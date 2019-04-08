@@ -42,8 +42,8 @@ class Login extends React.Component {
       hasImage: true,
       fixedClasses: "dropdown show",
       mobileOpen: false,
-      email: "",
-      password: ""
+      email: "matt@matt.com",
+      password: "London"
     };
   }
 
@@ -95,7 +95,9 @@ class Login extends React.Component {
                       formControlProps={{
                         fullWidth: true,
                         onChange: this.handleEmailChange
-                        
+                      }}
+                      inputProps={{
+                        type: "email"
                       }}
                     />
                   </GridItem>
@@ -103,12 +105,14 @@ class Login extends React.Component {
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={12}>
                     <CustomInput
-                      type="password"
                       labelText="Password"
                       id="password"
                       formControlProps={{
                         fullWidth: true,
                         onChange: this.handlePasswordChange,
+                      }}
+                      inputProps={{
+                        type: "password",
                         onSubmit: this.handleSubmit
                       }}
                     />
