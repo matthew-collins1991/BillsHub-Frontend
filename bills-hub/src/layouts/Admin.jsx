@@ -78,9 +78,9 @@ class Dashboard extends React.Component {
   };
 
   componentDidMount() {
-    API.getUser().then(info => this.setState({
-      userInfo: info
-    }))
+    this.setState({
+      userInfo: this.props.userInfo
+    })
     if (navigator.platform.indexOf("Win") > -1) {
       const ps = new PerfectScrollbar(this.refs.mainPanel);
     }

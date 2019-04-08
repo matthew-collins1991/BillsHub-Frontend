@@ -11,6 +11,8 @@ import CardHeader from "components/Card/CardHeader.jsx";
 import CardBody from "components/Card/CardBody.jsx";
 import CardFooter from "components/Card/CardFooter.jsx";
 import {NavLink} from 'react-router-dom'
+import API from '../../adapters/API'
+
 
 const styles = {
   cardCategoryWhite: {
@@ -40,9 +42,33 @@ class Login extends React.Component {
       hasImage: true,
       fixedClasses: "dropdown show",
       mobileOpen: false,
-      userInfo: {}
+      email: "",
+      password: ""
     };
   }
+
+
+  handleSubmit = () => {
+    const { login, history } = this.props;
+    const user = {
+      email: this.state.email,
+      password: this.state.password
+    };
+    API.login(user).then(data => {
+      if (data.error) {
+        alert("something is wrong!");
+      } else {
+        login(data)
+        history.push("/admin/dashboard");
+      }
+    });
+  };
+
+  handleEmailChange = event =>
+    this.setState({ email: event.target.value });
+
+  handlePasswordChange = event =>
+    this.setState({ password: event.target.value });
 
   render(){
     const { classes } = this.props;
@@ -67,7 +93,9 @@ class Login extends React.Component {
                       labelText="Email address"
                       id="email-address"
                       formControlProps={{
-                        fullWidth: true
+                        fullWidth: true,
+                        onChange: this.handleEmailChange
+                        
                       }}
                     />
                   </GridItem>
@@ -79,16 +107,18 @@ class Login extends React.Component {
                       labelText="Password"
                       id="password"
                       formControlProps={{
-                        fullWidth: true
+                        fullWidth: true,
+                        onChange: this.handlePasswordChange,
+                        onSubmit: this.handleSubmit
                       }}
                     />
                   </GridItem>
                 </GridContainer>
               </CardBody>
               <CardFooter>
-                  <NavLink to="/admin/dashboard" >
-                <Button color="primary">Log In</Button>
-                  </NavLink>
+                  
+                <Button color="primary" onClick={this.handleSubmit}>Log In</Button>
+                  
               </CardFooter>
             </Card>
           </GridItem>

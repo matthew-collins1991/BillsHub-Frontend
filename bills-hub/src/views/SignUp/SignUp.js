@@ -13,6 +13,7 @@ import CardHeader from "components/Card/CardHeader.jsx";
 import CardBody from "components/Card/CardBody.jsx";
 import CardFooter from "components/Card/CardFooter.jsx";
 import { NavLink } from "react-router-dom"
+import API from '../../adapters/API'
 
 
 const styles = {
@@ -36,8 +37,55 @@ const styles = {
 
 
 
-function SignUp(props) {
-  const { classes } = props;
+class SignUp extends React.Component {
+  
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      color: "blue",
+      hasImage: true,
+      fixedClasses: "dropdown show",
+      mobileOpen: false,
+      firstName:"",
+      lastName: "",
+      email: "",
+      password: ""
+    };
+  }
+
+
+  handleSubmit = () => {
+    const { signUp, history } = this.props;
+    const user = {
+      name: `${this.state.firstName} ${this.state.lastName}`,
+      email: this.state.email,
+      password: this.state.password
+    };
+    API.signUp(user).then(data => {
+      if (data.error) {
+        alert("something is wrong!");
+      } else {
+        signUp(data);
+        history.push("/admin/bills");
+      }
+    });
+  };
+
+  handleFirstNameChange = event =>
+    this.setState({ firstName: event.target.value });
+
+  handleLastNameChange = event => 
+    this.setState({ lastName: event.target.value });
+
+  handleEmailChange = event =>
+    this.setState({ email: event.target.value });
+
+  handlePasswordChange = event =>
+    this.setState({ password: event.target.value });
+  
+render(){
+  const { classes } = this.props;
   return (
     <div>
       <GridContainer>
@@ -59,7 +107,8 @@ function SignUp(props) {
                     labelText="First Name"
                     id="first-name"
                     formControlProps={{
-                      fullWidth: true
+                      fullWidth: true,
+                      onChange: this.handleFirstNameChange
                     }}
                   />
                 </GridItem>
@@ -68,7 +117,8 @@ function SignUp(props) {
                     labelText="Last Name"
                     id="last-name"
                     formControlProps={{
-                      fullWidth: true
+                      fullWidth: true,
+                      onChange: this.handleLastNameChange
                     }}
                   />
                 </GridItem>
@@ -79,7 +129,8 @@ function SignUp(props) {
                     labelText="Email address"
                     id="email-address"
                     formControlProps={{
-                      fullWidth: true
+                      fullWidth: true,
+                      onChange: this.handleEmailChange,
                     }}
                   />
                 </GridItem>
@@ -91,7 +142,8 @@ function SignUp(props) {
                     labelText="Password"
                     id="password"
                     formControlProps={{
-                      fullWidth: true
+                      fullWidth: true,
+                      onChange: this.handlePasswordChange,
                     }}
                   />
                 </GridItem>
@@ -111,7 +163,7 @@ function SignUp(props) {
             </CardBody>
             <CardFooter>
                 <NavLink to="/admin/bills" >
-              <Button color="primary">Sign Up</Button>
+              <Button color="primary" onClick={this.handleSubmit}>Sign Up</Button>
                 </NavLink>
             </CardFooter>
           </Card>
@@ -119,6 +171,7 @@ function SignUp(props) {
       </GridContainer>
     </div>
   );
+}
 }
 
 export default withStyles(styles)(SignUp);

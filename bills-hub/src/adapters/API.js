@@ -2,12 +2,37 @@ const baseUrl = "http://localhost:3000/api/v1/"
 const usersUrl = `${baseUrl}users`
 const userUrl = user => `${usersUrl}/${user.id}`
 
-const getUser = () =>
-fetch("http://localhost:3000/api/v1/users/1")
-.then(resp => resp.json())
+class API {
+  static login(user) {
+    return fetch(`${baseUrl}login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(user)
+    }).then(response => response.json());
+  }
 
-// eport as API
-export default {
-    getUser
-} 
+  static signUp(user){
+    console.log(user)
+    return fetch(`${baseUrl}signup`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(user)
+    }).then(response => response.json());
+  }
 
+  static validate() {
+    return this.get(`${baseUrl}validate`);
+  }
+
+  static get(url) {
+    return fetch(url).then(response => response.json());
+  }
+}
+
+window.API = API;
+
+export default API; 
