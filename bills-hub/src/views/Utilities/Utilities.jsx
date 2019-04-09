@@ -15,22 +15,21 @@ import CardBody from "components/Card/CardBody.jsx";
 import {dailySalesChart} from "variables/charts.jsx";
 import iconsStyle from "assets/jss/material-dashboard-pro-react/views/iconsStyle.jsx";
 import { Link } from 'react-router-dom'
+import API from "../../adapters/API";
+import {
+  logoImageStyle,
+  logoStyle
+} from "./UtilitiesStrings.js";
 
 
 
+class Utilities extends React.Component{
 
+ 
 
-class Bills extends React.Component{
-
-openNewCard = () => {
-    this.props.openNewCard()
-}
-
-MyLink = props => {
-    console.log("hello")
-    {
-return <Link to="/admin/bills/new" {...props} />
-    }
+findCompany = (utility) => {
+  let company = this.props.companyData.find(company => company.id === utility.company_id)
+  return company
 }
 
 render() {
@@ -43,8 +42,10 @@ render() {
      <GridContainer>
 
      <GridItem xs={12} sm={12} md={6} lg={4}>
-            <Card chart onClick={() => this.MyLink()}>
-              <CardHeader color="success">
+
+     <Link to="/admin/utilities/new" >
+            <Card chart >
+              <CardHeader color="success" >
                 <ChartistGraph
                   className="ct-chart"
                   data={dailySalesChart.data}
@@ -53,7 +54,7 @@ render() {
                   listener={dailySalesChart.animation}
                 />
               </CardHeader>
-              <CardBody>
+              <CardBody >
                 <h4 className={classes.cardTitle}>Create New</h4>
                 <p className={classes.cardCategory}>
                   <span className={classes.successText}>
@@ -67,19 +68,25 @@ render() {
                 </div>
               </CardFooter>
             </Card>
+            </Link >
+            
           </GridItem>
       {userInfo.utilities && userInfo.utilities.map(utility => 
         <>
-          <GridItem xs={12} sm={12} md={6} lg={4}>
+        
+          <GridItem xs={12} sm={12} md={6} lg={4} onClick={()=>this.props.handleUtilityClick(utility)}>
+          <Link to="/admin/utilities/show" >
             <Card chart>
-              <CardHeader color="success">
-                <ChartistGraph
-                  className="ct-chart"
-                  data={dailySalesChart.data}
-                  type="Line"
-                  options={dailySalesChart.options}
-                  listener={dailySalesChart.animation}
-                />
+              <CardHeader color="info" style={{background: "white"}}>
+                <div className="fileinput text-center" style={logoStyle}>
+                      <div className="thumbnail">
+                        <img
+                          src={this.findCompany(utility).logo}
+                          alt="..."
+                          style={logoImageStyle}
+                        />
+                      </div>
+                    </div>
               </CardHeader>
               <CardBody>
                 <h4 className={classes.cardTitle}>{utility.utility_type}</h4>
@@ -95,6 +102,7 @@ render() {
                 </div>
               </CardFooter>
             </Card>
+            </Link>
           </GridItem>
           
           
@@ -108,8 +116,8 @@ render() {
 
 }
 
-Bills.propTypes = {
+Utilities.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(iconsStyle)(Bills);
+export default withStyles(iconsStyle)(Utilities);

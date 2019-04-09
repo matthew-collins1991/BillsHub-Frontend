@@ -1,5 +1,4 @@
 import React from "react";
-import ReactDOM from "react-dom";
 import { createBrowserHistory } from "history";
 import { Router, Route, Switch, Redirect } from "react-router-dom";
 
@@ -8,13 +7,21 @@ import Admin from "layouts/Admin.jsx";
 import Login from "views/Login/Login"
 import SignUp from "views/SignUp/SignUp"
 import "assets/css/material-dashboard-pro-react.css?v=1.6.0";
+import API from 'adapters/API'
 
 const hist = createBrowserHistory();
 
 class App extends React.Component{
 
 state = {
-  userInfo: undefined
+  userInfo: undefined,
+  companyData: []
+}
+
+componentDidMount(){
+  API.getCompanies().then(companies => this.setState({
+    companyData: companies
+  }))
 }
 
 login = (data) => {
@@ -49,7 +56,7 @@ render(){
     <Router history={hist}>
     <Switch>
       <Route path="/admin" component={routerProps => (
-              <Admin userInfo={this.state.userInfo} {...routerProps} updateUser={(data)=>this.updateUser(data)}/>
+              <Admin userInfo={this.state.userInfo} companyData={this.state.companyData} {...routerProps} updateUser={(data)=>this.updateUser(data)}/>
               )}
           />
       <Route path="/signup" component={routerProps => (

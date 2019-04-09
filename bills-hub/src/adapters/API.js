@@ -1,6 +1,4 @@
 const baseUrl = "http://localhost:3000/api/v1/"
-const usersUrl = `${baseUrl}users`
-const userUrl = user => `${usersUrl}/${user.id}`
 
 class API {
   static login(user) {
@@ -31,8 +29,17 @@ class API {
     return fetch(url).then(response => response.json());
   }
 
+  static createUtility(utility) {
+    return fetch(`${baseUrl}admin/utilities/new`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(utility)
+    }).then(response => response.json());
+  }
+
   static updateUser(user) {
-    console.log(user)
     return fetch(`${baseUrl}admin/user`, {
       method: "PUT",
       headers: {
@@ -41,6 +48,34 @@ class API {
       body: JSON.stringify(user)
     }).then(response => response.json());
   }
+
+  static updateUserInBill(user) {
+    return fetch(`${baseUrl}admin/utilities/new`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(user)
+    }).then(response => response.json());
+  }
+
+  static getCompanies() {
+    return fetch(`${baseUrl}admin/utilities`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json"
+      },
+    }).then(response => response.json());
+  }
+
+  static findLogo(input){
+    return fetch(`https://autocomplete.clearbit.com/v1/companies/suggest?query=${input}`, {
+    method: "GET",
+    headers: {
+      "Authorization": "Bearer sk_039e430150e0bacb8fa2d9f10cc390cd"
+    }
+  }).then(response => response.json());
+}
 
 
 

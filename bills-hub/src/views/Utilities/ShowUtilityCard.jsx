@@ -40,9 +40,10 @@ import {
 
 import dashboardStyle from "assets/jss/material-dashboard-pro-react/views/dashboardStyle.jsx";
 
-class ShowBillCard extends React.Component {
+class ShowUtilityCard extends React.Component {
   state = {
-    value: 0
+    value: 0,
+    selectedUtility: {}
   };
   handleChange = (event, value) => {
     this.setState({ value });
@@ -53,6 +54,7 @@ class ShowBillCard extends React.Component {
   };
   render() {
     const { classes } = this.props;
+    const { utilityData } = this.props;
     return (
       <div>
         <GridContainer>
@@ -279,8 +281,8 @@ class ShowBillCard extends React.Component {
   }
 }
 
-ShowBillCard.propTypes = {
+ShowUtilityCard.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(dashboardStyle)(ShowBillCard);
+export default withStyles(dashboardStyle)(ShowUtilityCard);

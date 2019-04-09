@@ -8,7 +8,7 @@ import Notifications from "@material-ui/icons/Notifications";
 import DashboardPage from "views/Dashboard/Dashboard.jsx";
 import UserContainer from "views/UserProfile/UserContainer.jsx";
 import CompareContainer from "views/Compare/CompareContainer.jsx";
-import BillContainer from "views/Bills/BillContainer.jsx";
+import UtilitiesContainer from "views/Utilities/UtilitiesContainer.jsx";
 import NotificationContainer from "views/Notifications/NotificationContainer.jsx";
 
 
@@ -27,10 +27,10 @@ const dashboardRoutes = [
     layout: "/admin"
   },
   {
-    path: "/bills",
-    name: "Bills",
+    path: "/utilities",
+    name: "Utilities",
     icon: "content_paste",
-    component: (props) => <BillContainer {...props} />,
+    component: (props) => <UtilitiesContainer {...props} />,
     layout: "/admin"
   },
   {

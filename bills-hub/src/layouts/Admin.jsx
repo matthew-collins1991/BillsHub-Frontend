@@ -25,7 +25,7 @@ const switchRoutes = (state) => (
         return (
           <Route
             path={prop.layout + prop.path}
-            render={(props) => prop.component({ ...props, userInfo: state.userInfo })}
+            render={(props) => prop.component({ ...props, userInfo: state.userInfo, companyData: state.companyData })}
             key={key}
           />
         );
@@ -44,7 +44,8 @@ class Dashboard extends React.Component {
       hasImage: true,
       fixedClasses: "dropdown show",
       mobileOpen: false,
-      userInfo: {}
+      userInfo: {},
+      companyData: []
     };
   }
 
@@ -80,7 +81,8 @@ class Dashboard extends React.Component {
 
   componentDidMount() {
     this.setState({
-      userInfo: this.props.userInfo
+      userInfo: this.props.userInfo,
+      companyData: this.props.companyData
     })
     if (navigator.platform.indexOf("Win") > -1) {
       const ps = new PerfectScrollbar(this.refs.mainPanel);
