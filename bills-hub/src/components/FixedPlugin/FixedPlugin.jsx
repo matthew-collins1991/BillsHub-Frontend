@@ -1,6 +1,11 @@
 /*eslint-disable*/
 import React, { Component } from "react";
-import classnames from "classnames";
+import { NavLink } from "react-router-dom";
+
+import withStyles from "@material-ui/core/styles/withStyles";
+import Switch from "@material-ui/core/Switch";
+
+import styles from "assets/jss/material-dashboard-pro-react/customCheckboxRadioSwitch.jsx";
 
 import imagine1 from "assets/img/sidebar-1.jpg";
 import imagine2 from "assets/img/sidebar-2.jpg";
@@ -15,19 +20,38 @@ class FixedPlugin extends Component {
     this.state = {
       classes: "dropdown show",
       bg_checked: true,
-      bgImage: this.props.bgImage
+      bgImage: this.props.bgImage,
+      showImage: true
     };
     this.handleClick = this.handleClick.bind(this);
   }
   handleClick() {
     this.props.handleFixedClick();
   }
+  handleChange = name => event => {
+    switch (name) {
+      case "miniActive":
+        this.props.sidebarMinimize();
+        break;
+      case "image":
+        if (event.target.checked) {
+          this.props.handleImageClick(this.state.bgImage);
+        } else {
+          this.props.handleImageClick();
+        }
+        this.setState({ showImage: event.target.checked });
+        break;
+      default:
+        break;
+    }
+  };
   render() {
+    const { classes } = this.props;
     return (
       <div
-        className={classnames("fixed-plugin", {
-          "rtl-fixed-plugin": this.props.rtlActive
-        })}
+        className={
+          "fixed-plugin" + (this.props.rtlActive ? " fixed-plugin-rtl" : "")
+        }
       >
         <div id="fixedPluginClasses" className={this.props.fixedClasses}>
           <div onClick={this.handleClick}>
@@ -36,11 +60,11 @@ class FixedPlugin extends Component {
           <ul className="dropdown-menu">
             <li className="header-title">SIDEBAR FILTERS</li>
             <li className="adjustments-line">
-              <a className="switch-trigger">
-                <div>
+              <a className="switch-trigger active-color">
+                <div className="badge-colors text-center">
                   <span
                     className={
-                      this.props.bgColor === "purple"
+                      this.props.color === "purple"
                         ? "badge filter badge-purple active"
                         : "badge filter badge-purple"
                     }
@@ -51,7 +75,7 @@ class FixedPlugin extends Component {
                   />
                   <span
                     className={
-                      this.props.bgColor === "blue"
+                      this.props.color === "blue"
                         ? "badge filter badge-blue active"
                         : "badge filter badge-blue"
                     }
@@ -62,7 +86,7 @@ class FixedPlugin extends Component {
                   />
                   <span
                     className={
-                      this.props.bgColor === "green"
+                      this.props.color === "green"
                         ? "badge filter badge-green active"
                         : "badge filter badge-green"
                     }
@@ -73,7 +97,7 @@ class FixedPlugin extends Component {
                   />
                   <span
                     className={
-                      this.props.bgColor === "red"
+                      this.props.color === "red"
                         ? "badge filter badge-red active"
                         : "badge filter badge-red"
                     }
@@ -84,7 +108,7 @@ class FixedPlugin extends Component {
                   />
                   <span
                     className={
-                      this.props.bgColor === "orange"
+                      this.props.color === "orange"
                         ? "badge filter badge-orange active"
                         : "badge filter badge-orange"
                     }
@@ -93,7 +117,107 @@ class FixedPlugin extends Component {
                       this.props.handleColorClick("orange");
                     }}
                   />
+                  <span
+                    className={
+                      this.props.color === "white"
+                        ? "badge filter badge-white active"
+                        : "badge filter badge-white"
+                    }
+                    data-color="orange"
+                    onClick={() => {
+                      this.props.handleColorClick("white");
+                    }}
+                  />
+                  <span
+                    className={
+                      this.props.color === "rose"
+                        ? "badge filter badge-rose active"
+                        : "badge filter badge-rose"
+                    }
+                    data-color="orange"
+                    onClick={() => {
+                      this.props.handleColorClick("rose");
+                    }}
+                  />
                 </div>
+                <div className="clearfix" />
+              </a>
+            </li>
+            <li className="header-title">SIDEBAR BACKGROUND</li>
+            <li className="adjustments-line">
+              <a className="switch-trigger active-color">
+                <div className="badge-colors text-center">
+                  <span
+                    className={
+                      this.props.bgColor === "blue"
+                        ? "badge filter badge-blue active"
+                        : "badge filter badge-blue"
+                    }
+                    data-color="orange"
+                    onClick={() => {
+                      this.props.handleBgColorClick("blue");
+                    }}
+                  />
+                  <span
+                    className={
+                      this.props.bgColor === "white"
+                        ? "badge filter badge-white active"
+                        : "badge filter badge-white"
+                    }
+                    data-color="orange"
+                    onClick={() => {
+                      this.props.handleBgColorClick("white");
+                    }}
+                  />
+                  <span
+                    className={
+                      this.props.bgColor === "black"
+                        ? "badge filter badge-black active"
+                        : "badge filter badge-black"
+                    }
+                    data-color="orange"
+                    onClick={() => {
+                      this.props.handleBgColorClick("black");
+                    }}
+                  />
+                </div>
+                <div className="clearfix" />
+              </a>
+            </li>
+            <li className="adjustments-line">
+              <a className="switch-trigger">
+                <p className="switch-label">Sidebar Mini</p>
+                <Switch
+                  checked={this.props.miniActive}
+                  onChange={this.handleChange("miniActive")}
+                  value="sidebarMini"
+                  classes={{
+                    switchBase: classes.switchBase,
+                    checked: classes.switchChecked,
+                    icon: classes.switchIcon,
+                    iconChecked: classes.switchIconChecked,
+                    bar: classes.switchBar
+                  }}
+                />
+                <div className="clearfix" />
+              </a>
+            </li>
+            <li className="adjustments-line">
+              <a className="switch-trigger">
+                <p className="switch-label">Sidebar Image</p>
+                <Switch
+                  checked={this.state.showImage}
+                  onChange={this.handleChange("image")}
+                  value="sidebarMini"
+                  classes={{
+                    switchBase: classes.switchBase,
+                    checked: classes.switchChecked,
+                    icon: classes.switchIcon,
+                    iconChecked: classes.switchIconChecked,
+                    bar: classes.switchBar
+                  }}
+                />
+                <div className="clearfix" />
               </a>
             </li>
             <li className="header-title">Images</li>
@@ -101,7 +225,7 @@ class FixedPlugin extends Component {
               <a
                 className="img-holder switch-trigger"
                 onClick={() => {
-                  this.setState({ bgImage: imagine1 });
+                  this.setState({ showImage: true, bgImage: imagine1 });
                   this.props.handleImageClick(imagine1);
                 }}
               >
@@ -112,7 +236,7 @@ class FixedPlugin extends Component {
               <a
                 className="img-holder switch-trigger"
                 onClick={() => {
-                  this.setState({ bgImage: imagine2 });
+                  this.setState({ showImage: true, bgImage: imagine2 });
                   this.props.handleImageClick(imagine2);
                 }}
               >
@@ -123,7 +247,7 @@ class FixedPlugin extends Component {
               <a
                 className="img-holder switch-trigger"
                 onClick={() => {
-                  this.setState({ bgImage: imagine3 });
+                  this.setState({ showImage: true, bgImage: imagine3 });
                   this.props.handleImageClick(imagine3);
                 }}
               >
@@ -134,49 +258,38 @@ class FixedPlugin extends Component {
               <a
                 className="img-holder switch-trigger"
                 onClick={() => {
-                  this.setState({ bgImage: imagine4 });
+                  this.setState({ showImage: true, bgImage: imagine4 });
                   this.props.handleImageClick(imagine4);
                 }}
               >
                 <img src={imagine4} alt="..." />
               </a>
             </li>
-
             <li className="button-container">
-              <div className="button-container">
-                <Button
-                  color="success"
-                  href="https://www.creative-tim.com/product/material-dashboard-react"
-                  target="_blank"
-                  fullWidth
-                >
-                  Download free!
-                </Button>
-              </div>
-            </li>
-            <li className="button-container">
-              <div className="button-container">
+              <div>
                 <Button
                   color="warning"
                   href="https://www.creative-tim.com/product/material-dashboard-pro-react"
                   target="_blank"
                   fullWidth
                 >
-                  Get PRO version
+                  Buy now
                 </Button>
               </div>
             </li>
             <li className="button-container">
-              <Button
-                color="info"
-                fullWidth
-                href="https://demos.creative-tim.com/material-dashboard-react/#/documentation/tutorial"
-                target="_blank"
-              >
-                Documentation
-              </Button>
+              <div>
+                <NavLink to={"/documentation"} activeClassName="active">
+                  <Button color="info" fullWidth>
+                    Documentation
+                  </Button>
+                </NavLink>
+              </div>
             </li>
-            <li className="adjustments-line" />
+            <li className="header-title" id="sharrreTitle">
+              Thank you for sharing!
+              <br />
+            </li>
           </ul>
         </div>
       </div>
@@ -184,4 +297,4 @@ class FixedPlugin extends Component {
   }
 }
 
-export default FixedPlugin;
+export default withStyles(styles)(FixedPlugin);

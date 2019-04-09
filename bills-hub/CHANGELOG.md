@@ -1,12 +1,12 @@
 ## [1.6.0] 2019-02-13
 ### Nice stuff
-- [Added RTL support](https://github.com/creativetimofficial/material-dashboard-react/issues/16)
+- [Added RTL support](https://github.com/creativetimofficial/material-dashboard-pro-react/issues/16)
 ### Bug Fixing
-- [Added new script for npm](https://github.com/creativetimofficial/material-dashboard-react/issues/69)
-- Changed our buggy routing system, now it should work flawlessly, for more info, please refer to our [live docs here](https://demos.creative-tim.com/material-dashboard-react/#/documentation/routing-system)
-- [https://github.com/creativetimofficial/material-dashboard-react/issues/67](https://github.com/creativetimofficial/material-dashboard-react/issues/67)
-- [https://github.com/creativetimofficial/material-dashboard-react/issues/68](https://github.com/creativetimofficial/material-dashboard-react/issues/68)
-- [https://github.com/creativetimofficial/material-dashboard-react/issues/66](https://github.com/creativetimofficial/material-dashboard-react/issues/66)
+- [Added new script for npm](https://github.com/creativetimofficial/material-dashboard-pro-react/issues/69)
+- Changed our buggy routing system, now it should work flawlessly, for more info, please refer to our [live docs here](https://demos.creative-tim.com/material-dashboard-pro-react/#/documentation/routing-system)
+- [https://github.com/creativetimofficial/material-dashboard-pro-react/issues/67](https://github.com/creativetimofficial/material-dashboard-pro-react/issues/67)
+- [https://github.com/creativetimofficial/material-dashboard-pro-react/issues/68](https://github.com/creativetimofficial/material-dashboard-pro-react/issues/68)
+- [https://github.com/creativetimofficial/material-dashboard-pro-react/issues/66](https://github.com/creativetimofficial/material-dashboard-pro-react/issues/66)
 ### Major style changes
 - Almost all styles have been changed due to new components, solved issues or [the prettier command](https://prettier.io/docs/en/install.html)
 ### Major components changes
@@ -57,10 +57,10 @@
 ### Nice stuff
 - Added `install:clean` command (deletes `node_modules` and `package-lock.json` and runs `npm install`)
 ### Major style changes
-- `src/assets/jss/material-dashboard-react/components/tasksStyle.jsx`
-- `src/assets/jss/material-dashboard-react/checkboxAdnRadioStyle.jsx`
-- `src/assets/jss/material-dashboard-react/components/customTabsStyle.jsx`
-- `src/assets/jss/material-dashboard-react/components/snackbarContentStyle.jsx`
+- `src/assets/jss/material-dashboard-pro-react/components/tasksStyle.jsx`
+- `src/assets/jss/material-dashboard-pro-react/checkboxAdnRadioStyle.jsx`
+- `src/assets/jss/material-dashboard-pro-react/components/customTabsStyle.jsx`
+- `src/assets/jss/material-dashboard-pro-react/components/snackbarContentStyle.jsx`
 ### Deleted dependencies
 - `@babel/runtime v7.0.0-beta.55`
 ### Added dependencies
@@ -80,11 +80,11 @@
 ## [1.4.1] 2018-08-10
 ### Bug Fixing
 - Github solved issues:
-  - `https://github.com/creativetimofficial/material-dashboard-react/issues/58`
+  - `https://github.com/creativetimofficial/material-dashboard-pro-react/issues/58`
 - Changed the `GridContainer` component
 ### Major style changes
-- `src/assets/jss/material-dashboard-react/components/footerStyle.jsx`
-- `src/assets/jss/material-dashboard-react/components/headerStyle.jsx`
+- `src/assets/jss/material-dashboard-pro-react/components/footerStyle.jsx`
+- `src/assets/jss/material-dashboard-pro-react/components/headerStyle.jsx`
 ### Added dependencies
 - `@babel/runtime v7.0.0-beta.55`
 ### Update dependencies
@@ -97,24 +97,24 @@
 - Added resize event listener for window ([see this issue here](https://github.com/creativetimofficial/ct-material-dashboard-pro-react/issues/40#issuecomment-406983150))
 - Added issues template file
 - Github solved issues:
-  - https://github.com/creativetimofficial/material-dashboard-react/issues/49 (dropped `react-popper` in favour of `@material-ui/core/Popper`)
-  - https://github.com/creativetimofficial/material-dashboard-react/issues/47
-  - https://github.com/creativetimofficial/material-dashboard-react/issues/45
-  - https://github.com/creativetimofficial/material-dashboard-react/issues/38
-  - https://github.com/creativetimofficial/material-dashboard-react/issues/37
+  - https://github.com/creativetimofficial/material-dashboard-pro-react/issues/49 (dropped `react-popper` in favour of `@material-ui/core/Popper`)
+  - https://github.com/creativetimofficial/material-dashboard-pro-react/issues/47
+  - https://github.com/creativetimofficial/material-dashboard-pro-react/issues/45
+  - https://github.com/creativetimofficial/material-dashboard-pro-react/issues/38
+  - https://github.com/creativetimofficial/material-dashboard-pro-react/issues/37
 - Github enhancement issues:
-  - https://github.com/creativetimofficial/material-dashboard-react/issues/47 (read the [./README.md](./README.md) file)
+  - https://github.com/creativetimofficial/material-dashboard-pro-react/issues/47 (read the [./README.md](./README.md) file)
 ### Major style changes
 - Added styles for `svg`'s, **font-awesome** classes and `.material-icons` class inside
-  - `src/assets/jss/material-dashboard-react/views/dashboardStyle.jsx`
-  - `src/assets/jss/material-dashboard-react/components/buttonStyle.jsx`
-  - `src/assets/jss/material-dashboard-react/components/cardFooterStyle.jsx`
-  - `src/assets/jss/material-dashboard-react/components/cardHeaderStyle.jsx`
-  - `src/assets/jss/material-dashboard-react/components/headerLinksStyle.jsx`
-  - `src/assets/jss/material-dashboard-react/components/customTabsStyle.jsx`
+  - `src/assets/jss/material-dashboard-pro-react/views/dashboardStyle.jsx`
+  - `src/assets/jss/material-dashboard-pro-react/components/buttonStyle.jsx`
+  - `src/assets/jss/material-dashboard-pro-react/components/cardFooterStyle.jsx`
+  - `src/assets/jss/material-dashboard-pro-react/components/cardHeaderStyle.jsx`
+  - `src/assets/jss/material-dashboard-pro-react/components/headerLinksStyle.jsx`
+  - `src/assets/jss/material-dashboard-pro-react/components/customTabsStyle.jsx`
 - Others
-  - `src/assets/jss/material-dashboard-react/tooltipStyle.jsx`
-  - `src/assets/jss/material-dashboard-react/dropdownStyle.jsx`
+  - `src/assets/jss/material-dashboard-pro-react/tooltipStyle.jsx`
+  - `src/assets/jss/material-dashboard-pro-react/dropdownStyle.jsx`
 ### Dropped components
 - Dropped popper usage in favour of `@material-ui/core/Popper` (Changes in `src/components/Header/HeaderLinks.jsx`)
 ### Added components
@@ -137,9 +137,9 @@
 - Droped `src/components/index.js`, and changed all the imports to separate ones
 - Renamed `ItemGrid` to `GridItem`
 ### Major style changes
-- Moved the styles of `src/components/` inside `src/assets/jss/material-dashboard-react/components/`
-- Moved the styles of `src/layouts/` inside `src/assets/jss/material-dashboard-react/layouts/`
-- Moved the styles of `src/views/` inside `src/assets/jss/material-dashboard-react/views/`
+- Moved the styles of `src/components/` inside `src/assets/jss/material-dashboard-pro-react/components/`
+- Moved the styles of `src/layouts/` inside `src/assets/jss/material-dashboard-pro-react/layouts/`
+- Moved the styles of `src/views/` inside `src/assets/jss/material-dashboard-pro-react/views/`
 - Almost all styles have been changed more or less
 ### Dropped components
 - `src/components/CustomButtons/IconButton.jsx` (instead use `src/components/CustomButtons/Button.jsx` with `justIcon` prop)
@@ -183,8 +183,8 @@
 ## [1.2.0] 2018-04-16
 ### Bug Fixing
 - Renamed `src/containers/App/App.jsx` to `src/layouts/Dashboard/Dashboard.jsx`
-- Renamed `src/variables/styles.jsx` to `src/assets/jss/material-dashboard-react.jsx`
-- Moved all the files from `src/variables/styles/` to `src/assets/jss/material-dashboard-react/`
+- Renamed `src/variables/styles.jsx` to `src/assets/jss/material-dashboard-pro-react.jsx`
+- Moved all the files from `src/variables/styles/` to `src/assets/jss/material-dashboard-pro-react/`
 - Changes caused by the upgrade of `material-ui`
 - Small bug fixing
 ### Deleted dependencies

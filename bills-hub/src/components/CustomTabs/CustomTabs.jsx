@@ -13,15 +13,17 @@ import Card from "components/Card/Card.jsx";
 import CardBody from "components/Card/CardBody.jsx";
 import CardHeader from "components/Card/CardHeader.jsx";
 
-import customTabsStyle from "assets/jss/material-dashboard-react/components/customTabsStyle.jsx";
+import customTabsStyle from "assets/jss/material-dashboard-pro-react/components/customTabsStyle.jsx";
 
 class CustomTabs extends React.Component {
   state = {
     value: 0
   };
+
   handleChange = (event, value) => {
     this.setState({ value });
   };
+
   render() {
     const {
       classes,
@@ -46,11 +48,8 @@ class CustomTabs extends React.Component {
             onChange={this.handleChange}
             classes={{
               root: classes.tabsRoot,
-              indicator: classes.displayNone,
-              scrollButtons: classes.displayNone
+              indicator: classes.displayNone
             }}
-            variant="scrollable"
-            scrollButtons="auto"
           >
             {tabs.map((prop, key) => {
               var icon = {};
@@ -96,7 +95,8 @@ CustomTabs.propTypes = {
     "success",
     "danger",
     "info",
-    "primary"
+    "primary",
+    "rose"
   ]),
   title: PropTypes.string,
   tabs: PropTypes.arrayOf(

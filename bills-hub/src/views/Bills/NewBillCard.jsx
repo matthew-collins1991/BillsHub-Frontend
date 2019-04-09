@@ -1,7 +1,7 @@
 import React from "react";
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
-import InputLabel from "@material-ui/core/InputLabel";
+import Datetime from "react-datetime";
 // core components
 import GridItem from "components/Grid/GridItem.jsx";
 import GridContainer from "components/Grid/GridContainer.jsx";
@@ -12,26 +12,25 @@ import CardHeader from "components/Card/CardHeader.jsx";
 import CardBody from "components/Card/CardBody.jsx";
 import CardFooter from "components/Card/CardFooter.jsx";
 import API from "../../adapters/API";
-import TextField from '@material-ui/core/TextField';
+import InputLabel from "@material-ui/core/InputLabel";
+import extendedFormsStyle from "assets/jss/material-dashboard-pro-react/views/extendedFormsStyle.jsx";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
 
-const styles = {
-  cardCategoryWhite: {
-    color: "rgba(255,255,255,.62)",
-    margin: "0",
-    fontSize: "14px",
-    marginTop: "0",
-    marginBottom: "0"
-  },
-  cardTitleWhite: {
-    color: "#FFFFFF",
-    marginTop: "0px",
-    minHeight: "auto",
-    fontWeight: "300",
-    fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
-    marginBottom: "3px",
-    textDecoration: "none"
-  },
-};
+import Today from "@material-ui/icons/Today";
+import LibraryBooks from "@material-ui/icons/LibraryBooks";
+import AvTimer from "@material-ui/icons/AvTimer";
+// core components
+
+
+import "../../../src/assets/scss/material-dashboard-pro-react/plugins/_plugin-react-datetime.scss"
+
+import CardIcon from "components/Card/CardIcon.jsx";
+
+
+
+
 
 class NewBillCard extends React.Component{
 
@@ -46,7 +45,16 @@ class NewBillCard extends React.Component{
     cost: '',
     paymentType: '',
     paymentFreq: '',
+    date: ''
   }
+
+  handleStartDate(date){
+    this.setState({startDate: date}); 
+ };
+
+ handleRenewalDate(date){
+  this.setState({renewalDate: date}); 
+};
 
   componentWillMount(){
     const { userInfo } = this.props;
@@ -56,6 +64,10 @@ class NewBillCard extends React.Component{
     houseSize: userInfo.house_size
     })
   }
+
+  handleSimple = event => {
+    this.setState({ [event.target.name]: event.target.value });
+  };
 
   handleEditClick = () => {
     this.setState({
@@ -137,40 +149,38 @@ render() {
                     }}
                     inputProps={{
                       name: "utilityType",
-                      onChange: this.handleLastNameChange
+                      onChange: handleChange
                     }}
                   />
                 </GridItem>
               </GridContainer>
               <GridContainer>
                 <GridItem xs={12} sm={12} md={6}>
-                  <CustomInput
-                    labelText="Start Date"
-                    id="start-date"
-                    formControlProps={{
-                      fullWidth: true
-                    }}
-                    inputProps={{
-                      name: "startDate",
-                      onChange: handleChange
-                    }}
-                  />
+                <FormControl fullWidth>
+                    <Datetime
+                      onChange={(date) => this.handleStartDate(date)}
+                      timeFormat={false}
+                      inputProps={{ 
+                        placeholder: "Start Date",
+                        name: "startDate",
+                        onChange: handleChange
+                        
+                      }}
+                    />
+                  </FormControl>
                 </GridItem>
                 <GridItem xs={12} sm={12} md={6}>
-                  
-                     <TextField
-                     id="renewal-date"
-                     label="Renewal Date"
-                     type="date"
-                     defaultValue="2017-05-24"
-                     className={classes.textField}
-                     InputLabelProps={{
-                       shrink: true,
-                       name: "renewalDate",
-                      onChange: handleChange
-                     }}
-                   />
-                  
+                  <FormControl fullWidth>
+                    <Datetime
+                      onChange={(date) => this.handleRenewalDate(date)}
+                      timeFormat={false}
+                      inputProps={{ 
+                        placeholder: "Renewal Date",
+                        name: "renewalDate",
+                        onChange: handleChange
+                      }}
+                    />
+                  </FormControl>
                 </GridItem>
               </GridContainer>
               <GridContainer>
@@ -190,34 +200,159 @@ render() {
                   />
                 </GridItem>
                 <GridItem xs={12} sm={12} md={4}>
-                  <CustomInput
-                    
-                    labelText="Payment Type"
-                    id="payment-type"
-                    formControlProps={{
-                      fullWidth: true,
-                    }}
-                    inputProps={{
-                      name: "paymentType",
-                      onChange: handleChange ,
-                      type: "select"
-                    }}
-                  />
+                        <FormControl
+                          fullWidth
+                          className={classes.selectFormControl}
+                        >
+                          <InputLabel
+                            htmlFor="simple-select"
+                            className={classes.selectLabel}
+                            style={{color: "#495057"}}
+                          >
+                            Payment Type
+                          </InputLabel>
+                          <Select
+                            MenuProps={{
+                              className: classes.selectMenu
+                            }}
+                            classes={{
+                              select: classes.select
+                            }}
+                            value={this.state.paymentType}
+                            onChange={this.handleSimple}
+                            inputProps={{
+                              name: "paymentType",
+                              id: "simple-select"
+                            }}
+                          >
+                            <MenuItem
+                              disabled
+                              classes={{
+                                root: classes.selectMenuItem
+                              }}
+                            >
+                              Payment Type
+                            </MenuItem>
+                            <MenuItem
+                              classes={{
+                                root: classes.selectMenuItem,
+                                selected: classes.selectMenuItemSelected
+                              }}
+                              value="Credit Card"
+                            >
+                              Credit Card
+                            </MenuItem>
+                            <MenuItem
+                              classes={{
+                                root: classes.selectMenuItem,
+                                selected: classes.selectMenuItemSelected
+                              }}
+                              value="Debit Card"
+                            >
+                              Debit Card
+                            </MenuItem>
+                            <MenuItem
+                              classes={{
+                                root: classes.selectMenuItem,
+                                selected: classes.selectMenuItemSelected
+                              }}
+                              value="Direct Debit"
+                            >
+                              Direct Debit
+                            </MenuItem>
+                            <MenuItem
+                              classes={{
+                                root: classes.selectMenuItem,
+                                selected: classes.selectMenuItemSelected
+                              }}
+                              value="Cash"
+                            >
+                              Cash
+                            </MenuItem>
+                            <MenuItem
+                              classes={{
+                                root: classes.selectMenuItem,
+                                selected: classes.selectMenuItemSelected
+                              }}
+                              value="Payment Meter"
+                            >
+                              Payment Meter
+                            </MenuItem>
+                          </Select>
+                        </FormControl>
                 </GridItem>
                 <GridItem xs={12} sm={12} md={4}>
-                  <CustomInput
-                    
-                    labelText="Payment Frequency"
-                    id="payment-frequency"
-                    formControlProps={{
-                      fullWidth: true,
-                    }}
-                    inputProps={{
-                        name: "paymentFreq",
-                      onChange: handleChange,
-                    
-                    }}
-                  />
+                        <FormControl
+                          fullWidth
+                          className={classes.selectFormControl}
+                        >
+                          <InputLabel
+                            htmlFor="simple-select"
+                            className={classes.selectLabel}
+                            style={{color: "#495057"}}
+                          >
+                            Payment Frequency
+                          </InputLabel>
+                          <Select
+                            MenuProps={{
+                              className: classes.selectMenu
+                            }}
+                            classes={{
+                              select: classes.select
+                            }}
+                            value={this.state.paymentFreq}
+                            onChange={this.handleSimple}
+                            inputProps={{
+                              name: "paymentFreq",
+                              id: "simple-select"
+                            }}
+                          >
+                            <MenuItem
+                              disabled
+                              classes={{
+                                root: classes.selectMenuItem
+                              }}
+                            >
+                              Payment Frequency
+                            </MenuItem>
+                            <MenuItem
+                              classes={{
+                                root: classes.selectMenuItem,
+                                selected: classes.selectMenuItemSelected
+                              }}
+                              value="Weekly"
+                            >
+                              Weekly
+                            </MenuItem>
+                            <MenuItem
+                              classes={{
+                                root: classes.selectMenuItem,
+                                selected: classes.selectMenuItemSelected
+                              }}
+                              value="Monthly"
+                            >
+                              Monthly
+                            </MenuItem>
+                            <MenuItem
+                              classes={{
+                                root: classes.selectMenuItem,
+                                selected: classes.selectMenuItemSelected
+                              }}
+                              value="Quaterly"
+                            >
+                              Quaterly
+                            </MenuItem>
+                            <MenuItem
+                              classes={{
+                                root: classes.selectMenuItem,
+                                selected: classes.selectMenuItemSelected
+                              }}
+                              value="Yearly"
+                            >
+                              YEarly
+                            </MenuItem>
+                          </Select>
+                        </FormControl>
                 </GridItem>
               </GridContainer>
             </CardBody>
@@ -232,9 +367,10 @@ render() {
         {/* grid item to add padding to user form */}
         <GridItem xs={false} sm={1} md={2} />
       </GridContainer>
+  
     </div>
   );
 }
 }
 
-export default withStyles(styles)(NewBillCard);
+export default withStyles(extendedFormsStyle)(NewBillCard);

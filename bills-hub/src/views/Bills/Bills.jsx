@@ -13,7 +13,7 @@ import CardHeader from "components/Card/CardHeader.jsx";
 import CardFooter from "components/Card/CardFooter.jsx";
 import CardBody from "components/Card/CardBody.jsx";
 import {dailySalesChart} from "variables/charts.jsx";
-import iconsStyle from "assets/jss/material-dashboard-react/views/iconsStyle.jsx";
+import iconsStyle from "assets/jss/material-dashboard-pro-react/views/iconsStyle.jsx";
 import { Link } from 'react-router-dom'
 
 

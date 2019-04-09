@@ -5,7 +5,7 @@ import { createBrowserHistory } from "history";
 import App from "./App"
 
 
-import "assets/css/material-dashboard-react.css?v=1.6.0";
+import "assets/css/material-dashboard-pro-react.css?v=1.6.0";
 
 const hist = createBrowserHistory();
 

@@ -5,7 +5,7 @@ import {  Route, Switch, Redirect } from "react-router-dom";
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
 // core components
-import iconsStyle from "assets/jss/material-dashboard-react/views/iconsStyle.jsx";
+import iconsStyle from "assets/jss/material-dashboard-pro-react/views/iconsStyle.jsx";
 import Bills from "./Bills";
 import NewBillCard from "./NewBillCard";
 import ShowBillCard from './ShowBillCard';
