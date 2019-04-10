@@ -76,10 +76,13 @@ class NewUtilityCard extends React.Component {
     const { companyName, utilityType,startDate,renewalDate,location,age,houseSize,cost,paymentType,paymentFreq,billDate,companyUrl,companyLogo } = this.state;
     const user = {
       id: this.props.userInfo.id,
+      name: this.props.userInfo.name,
+      email: this.props.userInfo.email,
       location: location,
       age: age,
       houseSize: houseSize
     };
+    this.props.updateUserDetails(user)
     const utility = {
     user_id: this.props.userInfo.id,
     utility_type: utilityType,
@@ -94,6 +97,29 @@ class NewUtilityCard extends React.Component {
     cost: cost,
     bill_date: billDate
     }
+    const localUtility = {
+    id: this.findLastUtilityId(),
+    company_id: this.findLastCompanyId(),
+    user_id: this.props.userInfo.id,
+    utility_type: utilityType,
+    start_date: startDate,
+    renewal_date: renewalDate,
+    payment_type: paymentType,
+    paymentFreq: paymentFreq,
+    active: true,
+    bills: [{
+      cost: cost,
+      bill_date: billDate
+    }]
+    }
+    const localCompany = {
+      id: this.findLastCompanyId(),
+      name: companyName,
+      url: companyUrl,
+      logo: companyLogo,
+      }
+    this.props.addCompanyLocal(localCompany)
+    this.props.addUtilityLocal(localUtility)
     API.updateUserInBill(user).then(data => {
       if (data.error) {
         alert("something is wrong!");
@@ -103,10 +129,20 @@ class NewUtilityCard extends React.Component {
       if (data.error) {
         alert("something is wrong!");
       } else {
-        alert("Utility Created!");
+        alert("Utility Created!")
       }
     });
   };
+
+  findLastUtilityId = () => {
+    return this.props.userInfo.utilities.slice(-1)[0].id+1
+  }
+
+  findLastCompanyId = () => {
+    return this.props.companyData.slice(-1)[0].id+1
+  }
+
+  handleCancelClick = () => console.log(this.props.userInfo)
 
   handleChange = event =>
     this.setState({ [event.target.name]: event.target.value });
@@ -454,10 +490,12 @@ class NewUtilityCard extends React.Component {
               </CardBody>
               <CardFooter>
                 <GridItem style={{ display: "contents" }}>
+                <Link to="/admin/utilities">
                   <Button color="primary" onClick={this.handleSubmitClick}>
                     Submit New Bill
                   </Button>
-                  <Link to="/admin/bills">
+                  </Link>
+                  <Link to="/admin/utilities">
                     <Button
                       color="info"
                       onClick={this.handleCancelClick}

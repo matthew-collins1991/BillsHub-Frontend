@@ -69,6 +69,7 @@ class UserContainer extends React.Component{
       age: age,
       houseSize: houseSize
     };
+    this.props.updateUserDetails(user)
     API.updateUser(user).then(data => {
       if (data.error) {
         alert("something is wrong!");
@@ -228,7 +229,7 @@ render() {
               </GridItem>
               :
               <>
-              <GridItem >
+              <GridItem style={{display: 'contents'}}>
               <Button color="primary" onClick={this.handleUpdateClick}>Update Profile</Button>
               <Button color="info" onClick={this.handleCancelClick}>Cancel Changes</Button>
               </GridItem>

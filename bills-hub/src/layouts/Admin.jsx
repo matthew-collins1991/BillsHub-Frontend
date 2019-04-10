@@ -18,14 +18,20 @@ import logo from "assets/img/reactlogo.png";
 import API from "../adapters/API";
 
 
-const switchRoutes = (state) => (
+const switchRoutes = (state, that) => (
   <Switch>
     {routes.map((prop, key) => {
       if (prop.layout === "/admin") {
         return (
           <Route
             path={prop.layout + prop.path}
-            render={(props) => prop.component({ ...props, userInfo: state.userInfo, companyData: state.companyData })}
+            render={(props) => prop.component({ ...props, 
+              userInfo: state.userInfo, 
+              companyData: state.companyData, 
+              updateUserDetails: (user) => that.updateUserDetails(user), 
+              addUtilityLocal: (utility) => that.addUtilityLocal(utility),
+              addCompanyLocal: (company) => that.addCompanyLocal(company)
+            })}
             key={key}
           />
         );
@@ -48,6 +54,40 @@ class Dashboard extends React.Component {
       companyData: []
     };
   }
+
+  updateUserDetails = (user) => {
+    this.setState({
+      userInfo: {
+        ...this.state.userInfo,
+        name: user.name,
+        email: user.email,
+        age: user.age,
+        location: user.location,
+        houseSize: user.houseSize
+      }
+    })
+  }
+
+  addCompanyLocal = (company) => {this.setState({
+    companyData: [...this.state.companyData, company]
+    })
+    console.log(company)
+    console.log(this.state.companyData)
+  }
+
+  addUtilityLocal = (utility) => {
+    console.log(utility)
+    console.log(this.state.userInfo)
+
+    this.setState({
+      userInfo: {
+        ...this.state.userInfo,
+        utilities: [...this.state.userInfo.utilities, utility]
+      }
+    })
+    console.log(this.state.userInfo)
+  }
+  
 
   handleImageClick = image => {
     this.setState({ image: image });
@@ -125,10 +165,10 @@ class Dashboard extends React.Component {
           {/* On the /maps route we want the map to be on full screen - this is not possible if the content and conatiner classes are present because they have some paddings which would make the map smaller */}
           {this.getRoute() ? (
             <div className={classes.content}>
-              <div className={classes.container}>{switchRoutes(this.state)}</div>
+              <div className={classes.container}>{switchRoutes(this.state, this)}</div>
             </div>
           ) : (
-            <div className={classes.map}>{switchRoutes(this.state)}</div>
+            <div className={classes.map}>{switchRoutes(this.state, this)}</div>
           )}
           {this.getRoute() ? <Footer /> : null}
         </div>

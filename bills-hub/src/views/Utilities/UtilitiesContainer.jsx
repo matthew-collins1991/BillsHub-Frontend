@@ -31,7 +31,13 @@ render() {
               )}
           />
       <Route exact path="/admin/utilities/new" component={routerProps => (
-              <NewUtilityCard userInfo={userInfo} {...routerProps} />
+              <NewUtilityCard userInfo={userInfo}
+               companyData={companyData} 
+               {...routerProps} 
+               updateUserDetails={(user) => this.props.updateUserDetails(user)} 
+               addUtilityLocal = {(utility) => this.props.addUtilityLocal(utility)}
+               addCompanyLocal = {(company) => this.props.addCompanyLocal(company) }
+               />
               )}
           />
       <Route exact path="/admin/utilities/show" component={routerProps => (

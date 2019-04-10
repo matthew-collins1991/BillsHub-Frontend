@@ -89,7 +89,8 @@ render(){
   return (
     <div>
       <GridContainer>
-        <GridItem xs={12} sm={12} md={8}>
+      <GridItem xs={false} sm={1} md={2} />
+        <GridItem xs={12} sm={10} md={8}>
           <Card>
           <CardHeader color="primary">
           <h4 className={classes.cardTitleWhite}>Sign Up</h4>
@@ -172,6 +173,7 @@ render(){
             </CardFooter>
           </Card>
         </GridItem>
+        <GridItem xs={false} sm={1} md={2} />
       </GridContainer>
     </div>
   );

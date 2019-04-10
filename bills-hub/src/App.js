@@ -30,9 +30,11 @@ login = (data) => {
   })
 }
 
-updateUser = (data) => {
+
+
+updateUserDetails = (user) => {
   this.setState({
-    userInfo: data
+    userInfo: user
   })
 }
 
@@ -56,7 +58,7 @@ render(){
     <Router history={hist}>
     <Switch>
       <Route path="/admin" component={routerProps => (
-              <Admin userInfo={this.state.userInfo} companyData={this.state.companyData} {...routerProps} updateUser={(data)=>this.updateUser(data)}/>
+              <Admin userInfo={this.state.userInfo} companyData={this.state.companyData} {...routerProps} updateUserDetails={(user)=>this.updateUserDetails(user)}/>
               )}
           />
       <Route path="/signup" component={routerProps => (
