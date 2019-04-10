@@ -1,4 +1,4 @@
-const baseUrl = "http://localhost:3000/api/v1/"
+const baseUrl = "https://bills-hub-backend.herokuapp.com/api/v1/"
 
 class API {
   static login(user) {
@@ -72,7 +72,7 @@ class API {
     return fetch(`https://autocomplete.clearbit.com/v1/companies/suggest?query=${input}`, {
     method: "GET",
     headers: {
-      "Authorization": "Bearer sk_039e430150e0bacb8fa2d9f10cc390cd"
+      "Content-Type": "application/json"
     }
   }).then(response => response.json());
 }
