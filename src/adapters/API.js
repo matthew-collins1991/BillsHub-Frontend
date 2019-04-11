@@ -1,4 +1,15 @@
-const baseUrl = "https://bills-hub-backend.herokuapp.com/api/v1/"
+if (window.location.href.includes('herokuapp'))
+
+{
+
+  baseUrl = "https://bills-hub-backend.herokuapp.com/api/v1/"
+
+} else {
+  baseUrl = "http://localhost:3000//api/v1/"
+}
+
+
+
 
 class API {
   static login(user) {
