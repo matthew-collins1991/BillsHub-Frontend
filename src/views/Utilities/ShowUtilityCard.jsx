@@ -16,6 +16,9 @@ import Close from "@material-ui/icons/Close";
 import Check from "@material-ui/icons/Check";
 import Remove from "@material-ui/icons/Remove";
 import Add from "@material-ui/icons/Add";
+import Typography from '@material-ui/core/Typography';
+import Modal from '@material-ui/core/Modal';
+
 
 import Update from "@material-ui/icons/Update";
 import ArrowUpward from "@material-ui/icons/ArrowUpward";
@@ -41,6 +44,8 @@ import CardBody from "components/Card/CardBody.jsx";
 import CardFooter from "components/Card/CardFooter.jsx";
 import Button from "components/CustomButtons/Button.jsx";
 import API from "../../adapters/API";
+import InnerModal from './InnerModal'
+
 import { bugs, website, server } from "variables/general.jsx";
 
 import {
@@ -51,14 +56,50 @@ import {
 
 import dashboardStyle from "assets/jss/material-dashboard-pro-react/views/dashboardStyle.jsx";
 
+function getModalStyle() {
+
+  return {
+    position: 'absolute',
+    // top: `${50}%`,
+    left: 'auto',
+    width: 400 + 'px',
+    padding: 200 + 'px',
+    // transform: `translate(-${50}%, -${45}%)`,
+  };
+}
+
+
+const styles = theme => ({
+  paper: {
+    position: 'absolute',
+
+    backgroundColor: theme.palette.background.paper,
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing.unit * 4,
+    outline: 'none',
+  },
+});
+
+
+
 class ShowUtilityCard extends React.Component {
 
 
   state = {
     value: 0,
     billDate: "",
-    cost: ""
+    cost: "",
+    open: false
   };
+
+  handleOpen = () => {
+    this.setState({ open: true });
+  };
+
+  handleClose = () => {
+    this.setState({ open: false });
+  };
+
 
   handleBillChange = event =>
     this.setState({ [event.target.name]: event.target.value });
@@ -124,7 +165,7 @@ class ShowUtilityCard extends React.Component {
 
   handleButtonClick = (prop) => {
     if(prop.color === "success"){ 
-      console.log("success!")
+      this.handleOpen()
   } else{
     this.props.deleteBillLocal(prop.bill)
     API.deleteBill(prop.bill).then(data => {
@@ -268,6 +309,7 @@ class ShowUtilityCard extends React.Component {
                     )
                   }
                 />
+                
                   )
                 },
                 {
@@ -310,13 +352,25 @@ class ShowUtilityCard extends React.Component {
                   </Button>
                   </GridItem>
                 </GridContainer>
-
                   )
                 }
                 
               ]}
             />
           </GridItem>
+        </GridContainer>
+        <GridContainer>
+        <GridItem xs={12} sm={12} md={6} >
+        <Modal
+          open={this.state.open}
+          onClose={this.handleClose}
+        >
+          <div style={getModalStyle()} className={classes.paper}>
+            <InnerModal />
+            {/* <SimpleModalWrapped /> */}
+          </div>
+        </Modal>
+        </GridItem>
         </GridContainer>
      </>
     );
