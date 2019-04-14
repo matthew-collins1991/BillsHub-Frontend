@@ -76,6 +76,17 @@ class API {
     }).then(response => response.json());
   }
 
+  static updateBill(bill){
+    return fetch(`${baseUrl}admin/bills/show`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(bill)
+    }).then(response => response.json());
+    }
+  
+
   static deleteBill(bill) {
     return fetch(`${baseUrl}admin/utilities/show`, {
       method: "DELETE",

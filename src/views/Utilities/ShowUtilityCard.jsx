@@ -89,7 +89,8 @@ class ShowUtilityCard extends React.Component {
     value: 0,
     billDate: "",
     cost: "",
-    open: false
+    open: false,
+    billData: {}
   };
 
   handleOpen = () => {
@@ -165,6 +166,9 @@ class ShowUtilityCard extends React.Component {
 
   handleButtonClick = (prop) => {
     if(prop.color === "success"){ 
+      this.setState({
+        billData: prop.bill
+      })
       this.handleOpen()
   } else{
     this.props.deleteBillLocal(prop.bill)
@@ -366,8 +370,8 @@ class ShowUtilityCard extends React.Component {
           onClose={this.handleClose}
         >
           <div style={getModalStyle()} className={classes.paper}>
-            <InnerModal />
-            {/* <SimpleModalWrapped /> */}
+            <InnerModal billData = {this.state.billData} handleClose={this.handleClose} updateBillLocal = {(bill)=>this.props.updateBillLocal(bill)}/>
+
           </div>
         </Modal>
         </GridItem>

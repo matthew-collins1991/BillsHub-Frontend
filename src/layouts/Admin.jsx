@@ -38,7 +38,8 @@ const switchRoutes = (state, that) => (
               handleColorClick: (color) => that.handleColorClick(color),
               handleImageClick: (image) => that.handleImageClick(image),
               addBillLocal: (bill) => that.addBillLocal(bill),
-              deleteBillLocal: (bill) => that.deleteBillLocal(bill)
+              deleteBillLocal: (bill) => that.deleteBillLocal(bill),
+              updateBillLocal: (bill) => that.updateBillLocal(bill)
             })}
             key={key}
           />
@@ -117,8 +118,19 @@ class Dashboard extends React.Component {
     })
   }
 
-  deleteBillLocal = (bill) => {
+  updateBillLocal = (bill) => {
+    let utilityToChange = this.state.userInfo.utilities.find(utility => utility.id === bill.utility_id)
+    utilityToChange.bills = utilityToChange.bills.filter(oldBill => oldBill.id !== bill.id )
+    utilityToChange.bills = [...utilityToChange.bills, bill]
+    this.setState({
+      userInfo: {
+        ...this.state.userInfo,
+        utilities: [...this.state.userInfo.utilities, utilityToChange]
+      }
+    })
+  }
 
+  deleteBillLocal = (bill) => {
     let utilityToChange = this.state.userInfo.utilities.find(utility => utility.id === bill.utility_id)
     utilityToChange.bills = utilityToChange.bills.filter(allbill => allbill.id !== bill.id)     
     this.setState({

@@ -49,6 +49,7 @@ render() {
               companyData={companyData} 
               addBillLocal = {(bill) => this.props.addBillLocal(bill)} 
               deleteBillLocal = {(bill) => this.props.deleteBillLocal(bill)}
+              updateBillLocal = {(bill) => this.props.updateBillLocal(bill)}
               {...routerProps} />
               )}
           />
