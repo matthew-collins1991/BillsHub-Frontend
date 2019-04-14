@@ -35,6 +35,8 @@ findCompany = (utility) => {
 render() {
   const { classes } = this.props;
   const { userInfo } = this.props;
+
+
  
   return (
    
@@ -73,7 +75,6 @@ render() {
           </GridItem>
       {userInfo.utilities && userInfo.utilities.map(utility => 
         <>
-        
           <GridItem xs={12} sm={12} md={6} lg={4} onClick={()=>this.props.handleUtilityClick(utility)}>
           <Link to="/admin/utilities/show" >
             <Card chart>

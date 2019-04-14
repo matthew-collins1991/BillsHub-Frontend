@@ -11,6 +11,8 @@ import CardHeader from "components/Card/CardHeader.jsx";
 import CardBody from "components/Card/CardBody.jsx";
 import CardFooter from "components/Card/CardFooter.jsx";
 import API from "../../adapters/API";
+import FixedPlugin from "components/FixedPlugin/FixedPlugin.jsx";
+import image from "assets/img/sidebar-2.jpg";
 
 const styles = {
   cardCategoryWhite: {
@@ -39,8 +41,37 @@ class UserContainer extends React.Component{
     email: '',
     location: '',
     age: '',
-    houseSize: ''
+    houseSize: '',
+    mobileOpen: false,
+      miniActive: false,
+      image: image,
+      color: "blue",
+      bgColor: "black",
+      hasImage: true,
   }
+
+
+
+  handleBgColorClick = bgColor => {
+    this.props.handleBgColorClick(bgColor)
+    this.setState({
+      bgColor: bgColor
+    })
+  };
+
+  handleColorClick = color => {
+    this.props. handleColorClick(color)
+    this.setState({
+      color: color
+    })
+  };
+
+  handleImageClick = image => {
+    this.props.handleImageClick(image)
+    this.setState({
+      image: image
+    })
+  };
 
   componentWillMount(){
     const { userInfo } = this.props;
@@ -49,8 +80,12 @@ class UserContainer extends React.Component{
     email: userInfo.email,
     location: userInfo.location,
     age: userInfo.age,
-    houseSize: userInfo.house_size
+    houseSize: userInfo.house_size,
+    image: this.props.image,
+    color: this.props.color,
+    bgColor: this.props.bgColor
     })
+
   }
 
   handleEditClick = () => {
@@ -239,6 +274,29 @@ render() {
           </Card>
         </GridItem>
         {/* grid item to add padding to user form */}
+        <GridItem xs={false} sm={1} md={2} />
+      </GridContainer>
+      <GridContainer>
+      <GridItem xs={false} sm={1} md={2} />
+        <GridItem xs={12} sm={10} md={8}>
+      <Card>
+            <CardHeader color="primary">
+              <h4 className={classes.cardTitleWhite}>Theming</h4>
+            </CardHeader>
+            <CardBody>
+        <FixedPlugin
+            handleImageClick={this.handleImageClick}
+            handleColorClick={this.handleColorClick}
+            handleBgColorClick={this.handleBgColorClick}
+            handleHasImage={this.handleHasImage}
+            color={this.state["color"]}
+            bgColor={this.state["bgColor"]}
+            bgImage={this.state["image"]}
+            miniActive={this.state.miniActive}
+          />
+        </CardBody>
+        </Card>
+        </GridItem>
         <GridItem xs={false} sm={1} md={2} />
       </GridContainer>
     </div>

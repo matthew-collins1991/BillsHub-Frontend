@@ -247,16 +247,16 @@ footer ul li a:hover {
   font-family: "Roboto", "Helvetica", "Arial", sans-serif;
   font-weight: 300;
   line-height: 1.5em;
-  position: fixed;
-  top: 180px;
-  right: 0;
-  width: 64px;
-  background: rgba(0, 0, 0, 0.3);
+  /* position: fixed; */
+  /* top: 180px;
+  right: 0; */
+  /* width: 64px; */
+  /* background: rgba(0, 0, 0, 0.3); */
   z-index: 1031;
-  border-radius: 8px 0 0 8px;
+  border-radius: 20px;
   text-align: center;
-  top: 120px;
-  .badge-primary-background-color: #9c27b0;
+  /* top: 120px; */
+  /* .badge-primary-background-color: #9c27b0; */
 }
 
 .fixed-plugin .SocialMediaShareButton,
@@ -280,15 +280,15 @@ footer ul li a:hover {
 }
 
 .fixed-plugin .dropdown-menu {
-  right: 80px;
-  left: auto;
-  width: 290px;
+  /* right: 80px; */
+  /* left: auto; */
+  /* width: 290px; */
   border-radius: 0.1875rem;
   padding: 0 10px;
-  position: absolute;
+  /* position: absolute; */
   color: rgba(0, 0, 0, 0.87);
   display: inline-block;
-  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
+  /* box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14); */
   background: #fff;
   border-radius: 3px;
 }
@@ -356,15 +356,19 @@ footer ul li a:hover {
   background-color: #f44336;
 }
 
+.fixed-plugin .badge-white {
+  background-color: white;
+}
+
 .fixed-plugin h5 {
   font-size: 14px;
   margin: 10px;
 }
 .fixed-plugin .dropdown-menu li {
-  display: block;
+  display: inline-block;
   padding: 4px 0px;
-  width: 25%;
-  float: left;
+  /* width: 25%; */
+  /* float: left; */
 }
 
 .fixed-plugin li.adjustments-line,
@@ -425,6 +429,7 @@ footer ul li a:hover {
 }
 
 .fixed-plugin .dropdown-menu > li > a.img-holder {
+  width: 70px;
   font-size: 16px;
   text-align: center;
   border-radius: 10px;

@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+
 // react plugin for creating charts
 import ChartistGraph from "react-chartist";
 // @material-ui/core
@@ -9,7 +10,13 @@ import Icon from "@material-ui/core/Icon";
 import Store from "@material-ui/icons/Store";
 import Warning from "@material-ui/icons/Warning";
 import DateRange from "@material-ui/icons/DateRange";
-import LocalOffer from "@material-ui/icons/LocalOffer";
+import Person from "@material-ui/icons/Person";
+import Edit from "@material-ui/icons/Edit";
+import Close from "@material-ui/icons/Close";
+import Check from "@material-ui/icons/Check";
+import Remove from "@material-ui/icons/Remove";
+import Add from "@material-ui/icons/Add";
+
 import Update from "@material-ui/icons/Update";
 import ArrowUpward from "@material-ui/icons/ArrowUpward";
 import AccessTime from "@material-ui/icons/AccessTime";
@@ -18,6 +25,9 @@ import BugReport from "@material-ui/icons/BugReport";
 import Code from "@material-ui/icons/Code";
 import Cloud from "@material-ui/icons/Cloud";
 // core components
+import CustomInput from "components/CustomInput/CustomInput.jsx";
+import Datetime from "react-datetime";
+import FormControl from "@material-ui/core/FormControl";
 import GridItem from "components/Grid/GridItem.jsx";
 import GridContainer from "components/Grid/GridContainer.jsx";
 import Table from "components/Table/Table.jsx";
@@ -29,6 +39,7 @@ import CardHeader from "components/Card/CardHeader.jsx";
 import CardIcon from "components/Card/CardIcon.jsx";
 import CardBody from "components/Card/CardBody.jsx";
 import CardFooter from "components/Card/CardFooter.jsx";
+import Button from "components/CustomButtons/Button.jsx";
 
 import { bugs, website, server } from "variables/general.jsx";
 
@@ -41,32 +52,102 @@ import {
 import dashboardStyle from "assets/jss/material-dashboard-pro-react/views/dashboardStyle.jsx";
 
 class ShowUtilityCard extends React.Component {
+
+
   state = {
     value: 0,
-    selectedUtility: {}
+    billDate: "",
+    cost: ""
   };
+
+  handleBillChange = event =>
+    this.setState({ [event.target.name]: event.target.value });
+
+  findCompany = (utility) => {
+    let company = this.props.companyData.find(company => company.id === utility.company_id)
+    return company
+  }
+
+  getNextBillDate = (bills) => {
+    let date = bills[bills.length - 1].bill_date
+    return this.formatDate(date)
+  } 
+
+  getTimeToNextBill = (date) => {
+    let one_day=1000*60*60*24
+    let date1 = new Date(date)
+    let date2 = new Date()
+    let diff = date2.getTime() - date1.getTime()
+    let diffPositive = Math.abs(diff)
+    return Math.ceil(diffPositive/one_day)
+    }
+
+  formatDate = (date) => {
+    // const formatDate = date
+    //   .split("T")[0]
+    //   .split("-")
+    //   .reverse()
+    //   .join("/")
+    var test = new Date(date)
+    return test.toDateString()
+   }
+
+  getBillCost = (bill) => parseFloat(Math.round(bill * 100) / 100).toFixed(2);
+
+  getNextBillCost = (bills) => parseFloat(Math.round((bills[bills.length - 1].cost) * 100) / 100).toFixed(2);
+  
+  
+  handleFirstDate(date) {
+    this.setState({ billDate: date });
+  }
+
   handleChange = (event, value) => {
     this.setState({ value });
   };
 
+  handleSubmitClick = () => {
+    console.log("hello")
+  }
+
+  handleButtonClick = (prop) => {
+    console.log(prop)
+  }
+
   handleChangeIndex = index => {
     this.setState({ value: index });
   };
+
   render() {
-    const { classes } = this.props;
-    const { utilityData } = this.props;
+    const { classes, utilityData, userInfo } = this.props;
+    const simpleButtons = [
+      { color: "success", icon: Edit },
+      { color: "danger", icon: Close }
+    ].map((prop, key) => {
+      return (
+        <Button
+          style={{padding: 5 + 'px'}}
+          color={prop.color}
+          simple
+          className={classes.actionButton}
+          key={key}
+          onClick= {()=>this.handleButtonClick(prop)}
+        >
+          <prop.icon className={classes.icon} />
+        </Button>
+      );
+    });
     return (
-      <div>
+     <>
         <GridContainer>
-          <GridItem xs={12} sm={6} md={3}>
+          <GridItem xs={12} sm={4} md={4} lg={4}>
             <Card>
               <CardHeader color="warning" stats icon>
                 <CardIcon color="warning">
-                  <Icon>content_copy</Icon>
+                  <Icon>date_range</Icon>
                 </CardIcon>
-                <p className={classes.cardCategory}>Used Space</p>
+                <p className={classes.cardCategory} >Your next bill date:</p>
                 <h3 className={classes.cardTitle}>
-                  49/50 <small>GB</small>
+                {this.getNextBillDate(utilityData.bills)}
                 </h3>
               </CardHeader>
               <CardFooter stats>
@@ -74,67 +155,52 @@ class ShowUtilityCard extends React.Component {
                   <Danger>
                     <Warning />
                   </Danger>
-                  <a href="#pablo" onClick={e => e.preventDefault()}>
-                    Get more space
-                  </a>
+                  <p>
+                    This is {this.getTimeToNextBill(this.getNextBillDate(utilityData.bills))} days from now
+                  </p>
                 </div>
               </CardFooter>
             </Card>
           </GridItem>
-          <GridItem xs={12} sm={6} md={3}>
+          <GridItem xs={12} sm={4} md={4} lg={4}>
             <Card>
               <CardHeader color="success" stats icon>
                 <CardIcon color="success">
-                  <Store />
+                <Icon>content_copy</Icon>
                 </CardIcon>
-                <p className={classes.cardCategory}>Revenue</p>
-                <h3 className={classes.cardTitle}>$34,245</h3>
+                <p className={classes.cardCategory}>Your next bill cost:</p>
+                <h3 className={classes.cardTitle}>£{this.getNextBillCost(utilityData.bills)}</h3>
               </CardHeader>
               <CardFooter stats>
                 <div className={classes.stats}>
-                  <DateRange />
-                  Last 24 Hours
+                  <p>Payment type: {utilityData.payment_type}</p>
                 </div>
               </CardFooter>
             </Card>
           </GridItem>
-          <GridItem xs={12} sm={6} md={3}>
+          
+          <GridItem xs={12} sm={4} md={4} lg={4}>
+          <a href={'https://' + this.findCompany(utilityData).url} target="_blank">
             <Card>
               <CardHeader color="danger" stats icon>
                 <CardIcon color="danger">
-                  <Icon>info_outline</Icon>
+                  <Icon>link</Icon>
                 </CardIcon>
-                <p className={classes.cardCategory}>Fixed Issues</p>
-                <h3 className={classes.cardTitle}>75</h3>
+                <p className={classes.cardCategory}>Open webpage for:</p>
+                <h3 className={classes.cardTitle}>{this.findCompany(utilityData).name}</h3>
               </CardHeader>
               <CardFooter stats>
                 <div className={classes.stats}>
-                  <LocalOffer />
-                  Tracked from Github
+                <Icon>http</Icon>
+                {this.findCompany(utilityData).url}
                 </div>
               </CardFooter>
             </Card>
-          </GridItem>
-          <GridItem xs={12} sm={6} md={3}>
-            <Card>
-              <CardHeader color="info" stats icon>
-                <CardIcon color="info">
-                  <Accessibility />
-                </CardIcon>
-                <p className={classes.cardCategory}>Followers</p>
-                <h3 className={classes.cardTitle}>+245</h3>
-              </CardHeader>
-              <CardFooter stats>
-                <div className={classes.stats}>
-                  <Update />
-                  Just Updated
-                </div>
-              </CardFooter>
-            </Card>
+            </a>
           </GridItem>
         </GridContainer>
         <GridContainer>
-          <GridItem xs={12} sm={12} md={4}>
+          <GridItem xs={12} sm={12} md={6}>
             <Card chart>
               <CardHeader color="success">
                 <ChartistGraph
@@ -161,122 +227,74 @@ class ShowUtilityCard extends React.Component {
               </CardFooter>
             </Card>
           </GridItem>
-          <GridItem xs={12} sm={12} md={4}>
-            <Card chart>
-              <CardHeader color="warning">
-                <ChartistGraph
-                  className="ct-chart"
-                  data={emailsSubscriptionChart.data}
-                  type="Bar"
-                  options={emailsSubscriptionChart.options}
-                  responsiveOptions={emailsSubscriptionChart.responsiveOptions}
-                  listener={emailsSubscriptionChart.animation}
-                />
-              </CardHeader>
-              <CardBody>
-                <h4 className={classes.cardTitle}>Email Subscriptions</h4>
-                <p className={classes.cardCategory}>
-                  Last Campaign Performance
-                </p>
-              </CardBody>
-              <CardFooter chart>
-                <div className={classes.stats}>
-                  <AccessTime /> campaign sent 2 days ago
-                </div>
-              </CardFooter>
-            </Card>
-          </GridItem>
-          <GridItem xs={12} sm={12} md={4}>
-            <Card chart>
-              <CardHeader color="danger">
-                <ChartistGraph
-                  className="ct-chart"
-                  data={completedTasksChart.data}
-                  type="Line"
-                  options={completedTasksChart.options}
-                  listener={completedTasksChart.animation}
-                />
-              </CardHeader>
-              <CardBody>
-                <h4 className={classes.cardTitle}>Completed Tasks</h4>
-                <p className={classes.cardCategory}>
-                  Last Campaign Performance
-                </p>
-              </CardBody>
-              <CardFooter chart>
-                <div className={classes.stats}>
-                  <AccessTime /> campaign sent 2 days ago
-                </div>
-              </CardFooter>
-            </Card>
-          </GridItem>
-        </GridContainer>
-        <GridContainer>
           <GridItem xs={12} sm={12} md={6}>
             <CustomTabs
-              title="Tasks:"
               headerColor="primary"
               tabs={[
                 {
-                  tabName: "Bugs",
-                  tabIcon: BugReport,
+                  tabName: "Past Bills",
+                  tabIcon: Check,
                   tabContent: (
-                    <Tasks
-                      checkedIndexes={[0, 3]}
-                      tasksIndexes={[0, 1, 2, 3]}
-                      tasks={bugs}
-                    />
+                    <Table
+                  tableHeaderColor="warning"
+                  tableHead={["ID", "Cost", "Date", "Actions"]}
+                  tableData={
+                    utilityData.bills.map((bill, index) => 
+                       [index+1, `£${this.getBillCost(bill.cost)}`, this.formatDate(bill.bill_date), simpleButtons]
+                    )
+                  }
+                />
                   )
                 },
                 {
-                  tabName: "Website",
-                  tabIcon: Code,
+                  tabName: "New Bill",
+                  tabIcon: Add,
                   tabContent: (
-                    <Tasks
-                      checkedIndexes={[0]}
-                      tasksIndexes={[0, 1]}
-                      tasks={website}
-                    />
-                  )
-                },
-                {
-                  tabName: "Server",
-                  tabIcon: Cloud,
-                  tabContent: (
-                    <Tasks
-                      checkedIndexes={[1]}
-                      tasksIndexes={[0, 1, 2]}
-                      tasks={server}
-                    />
+                    <GridContainer>
+                    <GridItem xs={12} sm={12} md={6} >
+                    <FormControl fullWidth style={{paddingTop: 10 +'px'}}>
+                      <Datetime
+                        onChange={date => this.handleFirstDate(date)}
+                        timeFormat={false}
+                        inputProps={{
+                          placeholder: "Payment Date",
+                          name: "billDate",
+                          
+                        }}
+                      />
+                    </FormControl>
+                  </GridItem>
+                  <GridItem xs={12} sm={12} md={6}>
+                  <CustomInput
+                    labelText="Cost"
+                    id="cost"
+                    formControlProps={{
+                      fullWidth: true
+                    }}
+                    inputProps={{
+                      name: "cost",
+                      onChange: this.handleBillChange,
+                      type: "number",
+                      step: "0.01",
+                      min: 0
+                    }}
+                  />
+                </GridItem>
+                <GridItem xs={12} sm={12} md={6} >
+                  <Button color="primary" onClick={this.handleSubmitClick}>
+                    Add New Bill
+                  </Button>
+                  </GridItem>
+                </GridContainer>
+
                   )
                 }
+                
               ]}
             />
           </GridItem>
-          <GridItem xs={12} sm={12} md={6}>
-            <Card>
-              <CardHeader color="warning">
-                <h4 className={classes.cardTitleWhite}>Employees Stats</h4>
-                <p className={classes.cardCategoryWhite}>
-                  New employees on 15th September, 2016
-                </p>
-              </CardHeader>
-              <CardBody>
-                <Table
-                  tableHeaderColor="warning"
-                  tableHead={["ID", "Name", "Salary", "Country"]}
-                  tableData={[
-                    ["1", "Dakota Rice", "$36,738", "Niger"],
-                    ["2", "Minerva Hooper", "$23,789", "Curaçao"],
-                    ["3", "Sage Rodriguez", "$56,142", "Netherlands"],
-                    ["4", "Philip Chaney", "$38,735", "Korea, South"]
-                  ]}
-                />
-              </CardBody>
-            </Card>
-          </GridItem>
         </GridContainer>
-      </div>
+     </>
     );
   }
 }

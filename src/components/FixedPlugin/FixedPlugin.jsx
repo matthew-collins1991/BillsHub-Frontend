@@ -1,9 +1,9 @@
 /*eslint-disable*/
 import React, { Component } from "react";
-import { NavLink } from "react-router-dom";
+
 
 import withStyles from "@material-ui/core/styles/withStyles";
-import Switch from "@material-ui/core/Switch";
+
 
 import styles from "assets/jss/material-dashboard-pro-react/customCheckboxRadioSwitch.jsx";
 
@@ -12,7 +12,7 @@ import imagine2 from "assets/img/sidebar-2.jpg";
 import imagine3 from "assets/img/sidebar-3.jpg";
 import imagine4 from "assets/img/sidebar-4.jpg";
 
-import Button from "components/CustomButtons/Button.jsx";
+
 
 class FixedPlugin extends Component {
   constructor(props) {
@@ -54,9 +54,6 @@ class FixedPlugin extends Component {
         }
       >
         <div id="fixedPluginClasses" className={this.props.fixedClasses}>
-          <div onClick={this.handleClick}>
-            <i className="fa fa-cog fa-2x" />
-          </div>
           <ul className="dropdown-menu">
             <li className="header-title">SIDEBAR FILTERS</li>
             <li className="adjustments-line">
@@ -117,30 +114,8 @@ class FixedPlugin extends Component {
                       this.props.handleColorClick("orange");
                     }}
                   />
-                  <span
-                    className={
-                      this.props.color === "white"
-                        ? "badge filter badge-white active"
-                        : "badge filter badge-white"
-                    }
-                    data-color="orange"
-                    onClick={() => {
-                      this.props.handleColorClick("white");
-                    }}
-                  />
-                  <span
-                    className={
-                      this.props.color === "rose"
-                        ? "badge filter badge-rose active"
-                        : "badge filter badge-rose"
-                    }
-                    data-color="orange"
-                    onClick={() => {
-                      this.props.handleColorClick("rose");
-                    }}
-                  />
                 </div>
-                <div className="clearfix" />
+                {/* <div className="clearfix" /> */}
               </a>
             </li>
             <li className="header-title">SIDEBAR BACKGROUND</li>
@@ -153,20 +128,9 @@ class FixedPlugin extends Component {
                         ? "badge filter badge-blue active"
                         : "badge filter badge-blue"
                     }
-                    data-color="orange"
+                    data-color="blue"
                     onClick={() => {
                       this.props.handleBgColorClick("blue");
-                    }}
-                  />
-                  <span
-                    className={
-                      this.props.bgColor === "white"
-                        ? "badge filter badge-white active"
-                        : "badge filter badge-white"
-                    }
-                    data-color="orange"
-                    onClick={() => {
-                      this.props.handleBgColorClick("white");
                     }}
                   />
                   <span
@@ -175,7 +139,7 @@ class FixedPlugin extends Component {
                         ? "badge filter badge-black active"
                         : "badge filter badge-black"
                     }
-                    data-color="orange"
+                    data-color="black"
                     onClick={() => {
                       this.props.handleBgColorClick("black");
                     }}
@@ -184,43 +148,7 @@ class FixedPlugin extends Component {
                 <div className="clearfix" />
               </a>
             </li>
-            <li className="adjustments-line">
-              <a className="switch-trigger">
-                <p className="switch-label">Sidebar Mini</p>
-                <Switch
-                  checked={this.props.miniActive}
-                  onChange={this.handleChange("miniActive")}
-                  value="sidebarMini"
-                  classes={{
-                    switchBase: classes.switchBase,
-                    checked: classes.switchChecked,
-                    icon: classes.switchIcon,
-                    iconChecked: classes.switchIconChecked,
-                    bar: classes.switchBar
-                  }}
-                />
-                <div className="clearfix" />
-              </a>
-            </li>
-            <li className="adjustments-line">
-              <a className="switch-trigger">
-                <p className="switch-label">Sidebar Image</p>
-                <Switch
-                  checked={this.state.showImage}
-                  onChange={this.handleChange("image")}
-                  value="sidebarMini"
-                  classes={{
-                    switchBase: classes.switchBase,
-                    checked: classes.switchChecked,
-                    icon: classes.switchIcon,
-                    iconChecked: classes.switchIconChecked,
-                    bar: classes.switchBar
-                  }}
-                />
-                <div className="clearfix" />
-              </a>
-            </li>
-            <li className="header-title">Images</li>
+            <li className="header-title">BACKGROUND IMAGE</li>
             <li className={this.state["bgImage"] === imagine1 ? "active" : ""}>
               <a
                 className="img-holder switch-trigger"
@@ -263,34 +191,12 @@ class FixedPlugin extends Component {
                 }}
               >
                 <img src={imagine4} alt="..." />
+
               </a>
             </li>
-            <li className="button-container">
-              <div>
-                <Button
-                  color="warning"
-                  href="https://www.creative-tim.com/product/material-dashboard-pro-react"
-                  target="_blank"
-                  fullWidth
-                >
-                  Buy now
-                </Button>
-              </div>
-            </li>
-            <li className="button-container">
-              <div>
-                <NavLink to={"/documentation"} activeClassName="active">
-                  <Button color="info" fullWidth>
-                    Documentation
-                  </Button>
-                </NavLink>
-              </div>
-            </li>
-            <li className="header-title" id="sharrreTitle">
-              Thank you for sharing!
-              <br />
-            </li>
+            
           </ul>
+          <br />
         </div>
       </div>
     );

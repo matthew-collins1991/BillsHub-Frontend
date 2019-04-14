@@ -16,9 +16,11 @@ class UtilitiesContainer extends React.Component{
     selectedUtility: {}
   }
 
-  handleUtilityClick=(utility)=>this.setState({
+  handleUtilityClick=(utility)=>{
+    this.setState({
     selectedUtility: utility
   })
+}
 
 render() {
   const { userInfo, companyData } = this.props;
@@ -41,7 +43,7 @@ render() {
               )}
           />
       <Route exact path="/admin/utilities/show" component={routerProps => (
-              <ShowUtilityCard userInfo={userInfo} utilityData={this.state.selectedUtility} {...routerProps} />
+              <ShowUtilityCard userInfo={userInfo} utilityData={this.state.selectedUtility} companyData={companyData} {...routerProps} />
               )}
           />
       <Redirect from="/" to="/signup" />

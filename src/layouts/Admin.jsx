@@ -26,11 +26,17 @@ const switchRoutes = (state, that) => (
           <Route
             path={prop.layout + prop.path}
             render={(props) => prop.component({ ...props, 
+              image: state.image,
+              color: state.color,
+              bgColor: state.bgColor,
               userInfo: state.userInfo, 
               companyData: state.companyData, 
               updateUserDetails: (user) => that.updateUserDetails(user), 
               addUtilityLocal: (utility) => that.addUtilityLocal(utility),
-              addCompanyLocal: (company) => that.addCompanyLocal(company)
+              addCompanyLocal: (company) => that.addCompanyLocal(company),
+              handleBgColorClick: (bgColor) => that.handleBgColorClick(bgColor),
+              handleColorClick: (color) => that.handleColorClick(color),
+              handleImageClick: (image) => that.handleImageClick(image)
             })}
             key={key}
           />
@@ -51,9 +57,25 @@ class Dashboard extends React.Component {
       fixedClasses: "dropdown show",
       mobileOpen: false,
       userInfo: {},
-      companyData: []
+      companyData: [],
+      mobileOpen: false,
+      miniActive: false,
+
     };
   }
+
+  handleBgColorClick = bgColor => {
+    this.setState({ bgColor: bgColor });
+  };
+
+  handleColorClick = color => {
+    this.setState({ color: color });
+  };
+
+  handleImageClick = image => {
+    this.setState({ image: image });
+  };
+
 
   updateUserDetails = (user) => {
     this.setState({

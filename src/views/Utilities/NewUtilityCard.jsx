@@ -328,6 +328,7 @@ class NewUtilityCard extends React.Component {
                         defaultValue: this.state.age,
                         type: "number",
                         name: "age",
+                        min: 0,
                         onChange: handleChange
                       }}
                     />
@@ -386,7 +387,9 @@ class NewUtilityCard extends React.Component {
                       inputProps={{
                         name: "cost",
                         onChange: handleChange,
-                        type: "number"
+                        type: "number",
+                        step: "0.01",
+                        min: 0
                       }}
                     />
                   </GridItem>
