@@ -43,7 +43,13 @@ render() {
               )}
           />
       <Route exact path="/admin/utilities/show" component={routerProps => (
-              <ShowUtilityCard userInfo={userInfo} utilityData={this.state.selectedUtility} companyData={companyData} {...routerProps} />
+              <ShowUtilityCard 
+              userInfo={userInfo} 
+              utilityData={this.state.selectedUtility} 
+              companyData={companyData} 
+              addBillLocal = {(bill) => this.props.addBillLocal(bill)} 
+              deleteBillLocal = {(bill) => this.props.deleteBillLocal(bill)}
+              {...routerProps} />
               )}
           />
       <Redirect from="/" to="/signup" />

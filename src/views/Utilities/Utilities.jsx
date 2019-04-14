@@ -43,7 +43,7 @@ render() {
    <div>
      <GridContainer>
 
-     <GridItem xs={12} sm={12} md={6} lg={4}>
+     <GridItem xs={12} sm={6} md={6} lg={4}>
 
      <Link to="/admin/utilities/new" >
             <Card chart >
@@ -75,7 +75,7 @@ render() {
           </GridItem>
       {userInfo.utilities && userInfo.utilities.map(utility => 
         <>
-          <GridItem xs={12} sm={12} md={6} lg={4} onClick={()=>this.props.handleUtilityClick(utility)}>
+          <GridItem xs={12} sm={6} md={6} lg={4} onClick={()=>this.props.handleUtilityClick(utility)}>
           <Link to="/admin/utilities/show" >
             <Card chart>
               <CardHeader color="info" style={{background: "white"}}>

@@ -36,7 +36,9 @@ const switchRoutes = (state, that) => (
               addCompanyLocal: (company) => that.addCompanyLocal(company),
               handleBgColorClick: (bgColor) => that.handleBgColorClick(bgColor),
               handleColorClick: (color) => that.handleColorClick(color),
-              handleImageClick: (image) => that.handleImageClick(image)
+              handleImageClick: (image) => that.handleImageClick(image),
+              addBillLocal: (bill) => that.addBillLocal(bill),
+              deleteBillLocal: (bill) => that.deleteBillLocal(bill)
             })}
             key={key}
           />
@@ -93,23 +95,39 @@ class Dashboard extends React.Component {
   addCompanyLocal = (company) => {this.setState({
     companyData: [...this.state.companyData, company]
     })
-    console.log(company)
-    console.log(this.state.companyData)
   }
 
   addUtilityLocal = (utility) => {
-    console.log(utility)
-    console.log(this.state.userInfo)
-
     this.setState({
       userInfo: {
         ...this.state.userInfo,
         utilities: [...this.state.userInfo.utilities, utility]
       }
     })
-    console.log(this.state.userInfo)
   }
-  
+
+  addBillLocal = (bill) => {
+    let utilityToChange = this.state.userInfo.utilities.find(utility => utility.id === bill.utility_id)
+    utilityToChange.bills = [...utilityToChange.bills, bill]
+    this.setState({
+      userInfo: {
+        ...this.state.userInfo,
+        utilities: [...this.state.userInfo.utilities, utilityToChange]
+      }
+    })
+  }
+
+  deleteBillLocal = (bill) => {
+
+    let utilityToChange = this.state.userInfo.utilities.find(utility => utility.id === bill.utility_id)
+    utilityToChange.bills = utilityToChange.bills.filter(allbill => allbill.id !== bill.id)     
+    this.setState({
+      userInfo: {
+        ...this.state.userInfo,
+        utilities: [...this.state.userInfo.utilities, utilityToChange]
+      }
+    })
+  }
 
   handleImageClick = image => {
     this.setState({ image: image });

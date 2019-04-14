@@ -40,7 +40,7 @@ import CardIcon from "components/Card/CardIcon.jsx";
 import CardBody from "components/Card/CardBody.jsx";
 import CardFooter from "components/Card/CardFooter.jsx";
 import Button from "components/CustomButtons/Button.jsx";
-
+import API from "../../adapters/API";
 import { bugs, website, server } from "variables/general.jsx";
 
 import {
@@ -106,12 +106,36 @@ class ShowUtilityCard extends React.Component {
   };
 
   handleSubmitClick = () => {
-    console.log("hello")
+    const bill = {
+      bill_date: this.state.billDate,
+      cost: this.state.cost,
+      utility_id: this.props.utilityData.id
+    }
+    this.props.addBillLocal(bill)
+    API.addNewBill(bill).then(data => {
+      if (data.error) {
+        alert("something is wrong!");
+      } else {
+        alert("Bill Added!")
+      }
+    });
   }
 
+
   handleButtonClick = (prop) => {
-    console.log(prop)
+    if(prop.color === "success"){ 
+      console.log("success!")
+  } else{
+    this.props.deleteBillLocal(prop.bill)
+    API.deleteBill(prop.bill).then(data => {
+      if (data.error) {
+        alert("something is wrong!");
+      } else {
+        alert("Bill Deleted!")
+      }
+    });
   }
+}
 
   handleChangeIndex = index => {
     this.setState({ value: index });
@@ -119,9 +143,9 @@ class ShowUtilityCard extends React.Component {
 
   render() {
     const { classes, utilityData, userInfo } = this.props;
-    const simpleButtons = [
-      { color: "success", icon: Edit },
-      { color: "danger", icon: Close }
+    const simpleButtons = (bill) => [
+      { color: "success", icon: Edit, bill: bill },
+      { color: "danger", icon: Close, bill: bill }
     ].map((prop, key) => {
       return (
         <Button
@@ -240,7 +264,7 @@ class ShowUtilityCard extends React.Component {
                   tableHead={["ID", "Cost", "Date", "Actions"]}
                   tableData={
                     utilityData.bills.map((bill, index) => 
-                       [index+1, `£${this.getBillCost(bill.cost)}`, this.formatDate(bill.bill_date), simpleButtons]
+                       [index+1, `£${this.getBillCost(bill.cost)}`, this.formatDate(bill.bill_date), simpleButtons(bill)]
                     )
                   }
                 />

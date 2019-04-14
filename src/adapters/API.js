@@ -1,4 +1,6 @@
-const baseUrl = window.location.href.includes('herokuapp') ? "https://bills-hub-backend.herokuapp.com/api/v1/" : "http://localhost:3000//api/v1/"
+const baseUrl = window.location.href.includes('herokuapp') ? 
+"https://bills-hub-backend.herokuapp.com/api/v1/" 
+: "http://localhost:3000/api/v1/"
 
 
 
@@ -23,6 +25,16 @@ class API {
         "Content-Type": "application/json"
       },
       body: JSON.stringify(user)
+    }).then(response => response.json());
+  }
+
+  static addNewBill(bill){
+    return fetch(`${baseUrl}admin/utilities/show`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(bill)
     }).then(response => response.json());
   }
 
@@ -63,6 +75,16 @@ class API {
       body: JSON.stringify(user)
     }).then(response => response.json());
   }
+
+  static deleteBill(bill) {
+    return fetch(`${baseUrl}admin/utilities/show`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(bill)
+    }).then(response => response.json());
+  } 
 
   static getCompanies() {
     return fetch(`${baseUrl}admin/utilities`, {
