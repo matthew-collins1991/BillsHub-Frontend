@@ -1,3 +1,5 @@
+import { GetBillLabels } from "./Labels";
+
 const getTimeToNextBill = (date) => {
     let one_day=1000*60*60*24
     let date1 = new Date(date)
@@ -37,16 +39,38 @@ export const returnSeries = (data) => {
         }
     })
 
-    // 3 empty values at the end
     let series = values.map(value => {if(value === 0){
         return null
     }else{
         return value
     }})
-    
-    console.log(series)
-
     return [series]
+}
+
+export const GetMonthBillCostsAndLabels = (utilities) => {
+    let costArray = []
+    let billArray = []
+    let today = new Date()
+    let monthInt = today.getMonth()
+    let filteredUtilities = utilities.filter(utility => utility.bills.map(bill => new Date(bill.bill_date).getMonth()).includes(monthInt))
+    filteredUtilities.map(utility => utility.bills.map(bill => {
+        if(new Date(bill.bill_date).getMonth() === monthInt) {
+            bill.utility_type = utility.utility_type
+            billArray = [...billArray, bill]
+        } 
+    }))
+  billArray.forEach(function (a) {
+  if (!this[a.utility_id]) {
+      this[a.utility_id] = { utility_id: a.utility_id, utility_type: a.utility_type, cost: 0 };
+      costArray.push(this[a.utility_id]);
+  }
+  this[a.utility_id].cost += a.cost;
+}, Object.create(null));
 
 
+
+
+
+
+    return costArray
 }

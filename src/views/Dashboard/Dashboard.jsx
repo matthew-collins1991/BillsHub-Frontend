@@ -29,6 +29,8 @@ import CardHeader from "components/Card/CardHeader.jsx";
 import CardIcon from "components/Card/CardIcon.jsx";
 import CardBody from "components/Card/CardBody.jsx";
 import CardFooter from "components/Card/CardFooter.jsx";
+import {GetMonthlyLabels} from '../../variables/Labels'
+import {sortDatesHighToLow, returnSeries, GetMonthBillCostsAndLabels} from '../../variables/DateSort'
 
 import { bugs, website, server } from "variables/general.jsx";
 
@@ -40,10 +42,155 @@ import {
 
 import dashboardStyle from "assets/jss/material-dashboard-pro-react/views/dashboardStyle.jsx";
 
+
+var Chartist = require("chartist");
+
+var delays = 80,
+  durations = 500;
+var delays2 = 80,
+  durations2 = 500;
+
+const MonthlyBillChart = (that) => ({
+  data: {
+    labels: GetMonthlyLabels(),
+    series: returnSeries(that.allBillsArray())
+  },
+  options: {
+    lineSmooth: Chartist.Interpolation.cardinal({
+      tension: 0
+    }),
+    low: 0,
+    high: 90, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
+    chartPadding: {
+      top: 0,
+      right: 0,
+      bottom: 0,
+      left: 0
+    }
+  },
+  // for animation
+  animation: {
+    draw: function(data) {
+      if (data.type === "line" || data.type === "area") {
+        data.element.animate({
+          d: {
+            begin: 600,
+            dur: 700,
+            from: data.path
+              .clone()
+              .scale(1, 0)
+              .translate(0, data.chartRect.height())
+              .stringify(),
+            to: data.path.clone().stringify(),
+            easing: Chartist.Svg.Easing.easeOutQuint
+          }
+        });
+      } else if (data.type === "point") {
+        data.element.animate({
+          opacity: {
+            begin: (data.index + 1) * delays,
+            dur: durations,
+            from: 0,
+            to: 1,
+            easing: "ease"
+          }
+        });
+      }
+    }
+  }
+});
+
+const MonthlyBillBarChart = (that) => ({
+  data: {
+    labels: that.props.userInfo.utilities && that.getMonthlyBillLabels(),
+    series: that.props.userInfo.utilities && that.getMonthlyBillCosts()
+  },
+  options: {
+    axisX: {
+      showGrid: false,
+    },
+    chartPadding: {
+      top: 0,
+      right: 5,
+      bottom: 0,
+      left: 0
+    }
+  },
+  responsiveOptions: [
+    [
+      "screen and (max-width: 640px)",
+      {
+        seriesBarDistance: 5,
+        axisX: {
+          labelInterpolationFnc: function(value) {
+            return value[0];
+          }
+        }
+      }
+    ]
+  ],
+  animation: {
+    draw: function(data) {
+      if (data.type === "bar") {
+        data.element.animate({
+          opacity: {
+            begin: (data.index + 1) * delays2,
+            dur: durations2,
+            from: 0,
+            to: 1,
+            easing: "ease"
+          }
+        });
+      }
+    }
+  }
+});
+
+
+
+
+
 class Dashboard extends React.Component {
   state = {
-    value: 0
+    value: 0,
+    allBills: {}
   };
+
+allUtilitiesArray = () => {
+  let allUtilities = []
+    this.props.userInfo.utilities && this.props.userInfo.utilities.map(utility =>  allUtilities = [...allUtilities, utility])
+    return allUtilities
+}
+
+getMonthlyBillLabels = () => {
+  return (GetMonthBillCostsAndLabels(this.allUtilitiesArray()).map(bill => bill.utility_type))
+
+}
+
+getMonthlyBillCosts = () => {
+  return [(GetMonthBillCostsAndLabels(this.allUtilitiesArray()).map(bill => bill.cost))]
+}
+
+getTotalMonthlyOutgoings = () => {
+let totalCost = 0
+GetMonthBillCostsAndLabels(this.allUtilitiesArray()).map(bill => totalCost = totalCost + bill.cost)
+console.log(totalCost)
+}
+
+test = () => {
+  console.log(this.getMonthlyBillCosts())
+  console.log(this.getMonthlyBillLabels())
+}
+
+allBillsArray = () => {
+    let allBills = []
+    this.props.userInfo.utilities && this.props.userInfo.utilities.map(utility => utility.bills.map(bill => {
+      allBills = [...allBills, bill]
+    }))
+    
+    return allBills
+  }
+
   handleChange = (event, value) => {
     this.setState({ value });
   };
@@ -62,24 +209,18 @@ class Dashboard extends React.Component {
               <CardHeader color="success">
                 <ChartistGraph
                   className="ct-chart"
-                  data={dailySalesChart.data}
+                  data={MonthlyBillChart(this).data}
                   type="Line"
-                  options={dailySalesChart.options}
-                  listener={dailySalesChart.animation}
+                  options={MonthlyBillChart.options}
+                  listener={MonthlyBillChart.animation}
                 />
               </CardHeader>
               <CardBody>
-                <h4 className={classes.cardTitle}>Daily Sales</h4>
-                <p className={classes.cardCategory}>
-                  <span className={classes.successText}>
-                    <ArrowUpward className={classes.upArrowCardCategory} /> 55%
-                  </span>{" "}
-                  increase in today sales.
-                </p>
+                <h4 className={classes.cardTitle}>Outgoings by month</h4>
               </CardBody>
               <CardFooter chart>
                 <div className={classes.stats}>
-                  <AccessTime /> updated 4 minutes ago
+                  <AccessTime /> {this.props.userInfo.utilities && this.getTotalMonthlyOutgoings()}
                 </div>
               </CardFooter>
             </Card>
@@ -98,13 +239,7 @@ class Dashboard extends React.Component {
                 />
               </CardHeader>
               <CardBody>
-                <h4 className={classes.cardTitle}>Daily Sales</h4>
-                <p className={classes.cardCategory}>
-                  <span className={classes.successText}>
-                    <ArrowUpward className={classes.upArrowCardCategory} /> 55%
-                  </span>{" "}
-                  increase in today sales.
-                </p>
+                <h4 className={classes.cardTitle}>Hello</h4>
               </CardBody>
               <CardFooter chart>
                 <div className={classes.stats}>
@@ -118,11 +253,11 @@ class Dashboard extends React.Component {
               <CardHeader color="warning">
                 <ChartistGraph
                   className="ct-chart"
-                  data={emailsSubscriptionChart.data}
+                  data={MonthlyBillBarChart(this).data}
                   type="Bar"
-                  options={emailsSubscriptionChart.options}
-                  responsiveOptions={emailsSubscriptionChart.responsiveOptions}
-                  listener={emailsSubscriptionChart.animation}
+                  options={MonthlyBillBarChart.options}
+                  responsiveOptions={MonthlyBillBarChart.responsiveOptions}
+                  listener={MonthlyBillBarChart.animation}
                 />
               </CardHeader>
               <CardBody>

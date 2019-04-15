@@ -19,10 +19,12 @@ import API from "../adapters/API";
 
 
 const switchRoutes = (state, that) => (
+ 
   <Switch>
     {routes.map((prop, key) => {
       if (prop.layout === "/admin") {
         return (
+          
           <Route
             path={prop.layout + prop.path}
             render={(props) => prop.component({ ...props, 
@@ -43,10 +45,12 @@ const switchRoutes = (state, that) => (
             })}
             key={key}
           />
+         
         );
       }
     })}
   </Switch>
+
 );
 
 class Dashboard extends React.Component {

@@ -32,7 +32,7 @@ import CardFooter from "components/Card/CardFooter.jsx";
 import Button from "components/CustomButtons/Button.jsx";
 import API from "../../adapters/API";
 import InnerModal from './InnerModal'
-import GetMonthlyLabels from '../../variables/Labels'
+import {GetMonthlyLabels, GetBillLabels} from '../../variables/Labels'
 import {sortDatesHighToLow, returnSeries} from '../../variables/DateSort'
 
 
@@ -60,7 +60,7 @@ var delays = 80,
 var delays2 = 80,
   durations2 = 500;
 
-const dailySalesChart = (that) => ({
+const MonthlyBillChart = (that) => ({
   data: {
     labels: GetMonthlyLabels(),
     series: returnSeries(that.props.utilityData.bills.sort(sortDatesHighToLow))
@@ -305,10 +305,10 @@ class ShowUtilityCard extends React.Component {
               <CardHeader color="success">
                 <ChartistGraph
                   className="ct-chart"
-                  data={dailySalesChart(this).data}
+                  data={MonthlyBillChart(this).data}
                   type="Line"
-                  options={dailySalesChart.options}
-                  listener={dailySalesChart.animation}
+                  options={MonthlyBillChart.options}
+                  listener={MonthlyBillChart.animation}
                 />
               </CardHeader>
               <CardBody>
@@ -336,14 +336,14 @@ class ShowUtilityCard extends React.Component {
                   tabIcon: Check,
                   tabContent: (
                     <Table
-                  tableHeaderColor="warning"
-                  tableHead={["ID", "Cost", "Date", "Actions"]}
-                  tableData={
-                    this.sortedBills().map((bill, index) => 
-                       [index+1, `£${this.getBillCost(bill.cost)}`, this.formatDate(bill.bill_date), simpleButtons(bill)]
-                    )
-                  }
-                />
+                    tableHeaderColor="warning"
+                    tableHead={["Detail", "Info"]}
+                    tableData={
+                      this.sortedBills().map((bill, index) => 
+                         [index+1, `£${this.getBillCost(bill.cost)}`, this.formatDate(bill.bill_date), simpleButtons(bill)]
+                      )
+                    }
+                  />
                 
                   )
                 },
@@ -388,8 +388,25 @@ class ShowUtilityCard extends React.Component {
                   </GridItem>
                 </GridContainer>
                   )
+                },
+                {
+                  tabName: "Contract Info",
+                  tabIcon: Check,
+                  tabContent: (
+                    
+                <Table
+                tableHeaderColor="warning"
+                tableHead={["Detail", "Info"]}
+                tableData={[
+                   
+                     ['Start Date:',  this.formatDate(this.props.utilityData.start_date)],
+                     ['Renewal Date:',  this.formatDate(this.props.utilityData.renewal_date)],
+                ]
                 }
+              />
                 
+                  )
+                }
               ]}
             />
           </GridItem>

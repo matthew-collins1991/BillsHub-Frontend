@@ -89,7 +89,7 @@ render() {
                       </div>
                     </div>
               </CardHeader>
-              <CardBody>
+              <CardBody >
                 <h4 className={classes.cardTitle}>{utility.utility_type}</h4>
                 <p className={classes.cardCategory}>
                   <span className={classes.successText}>

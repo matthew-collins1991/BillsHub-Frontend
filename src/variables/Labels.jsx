@@ -18,7 +18,7 @@ const monthlyLabels = [
 
 
 
-    const GetMonthlyLabels = () => {
+    export const GetMonthlyLabels = () => {
         let today = new Date()
         let monthInt = today.getMonth()
         // puts todays month in center of graph
@@ -27,8 +27,7 @@ const monthlyLabels = [
         }else{
         return monthlyLabels[monthInt+3]
         }
-        
     }
 
-export default GetMonthlyLabels
+
 
