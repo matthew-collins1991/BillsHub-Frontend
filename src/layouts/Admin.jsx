@@ -122,17 +122,19 @@ class Dashboard extends React.Component {
     let utilityToChange = this.state.userInfo.utilities.find(utility => utility.id === bill.utility_id)
     utilityToChange.bills = utilityToChange.bills.filter(oldBill => oldBill.id !== bill.id )
     utilityToChange.bills = [...utilityToChange.bills, bill]
+    let changedUtility = this.state.userInfo.utilities.filter(utility => utility.id !== utilityToChange.id)
     this.setState({
       userInfo: {
         ...this.state.userInfo,
-        utilities: [...this.state.userInfo.utilities, utilityToChange]
+        utilities: [...changedUtility, utilityToChange]
       }
     })
   }
 
   deleteBillLocal = (bill) => {
     let utilityToChange = this.state.userInfo.utilities.find(utility => utility.id === bill.utility_id)
-    utilityToChange.bills = utilityToChange.bills.filter(allbill => allbill.id !== bill.id)     
+    utilityToChange.bills = utilityToChange.bills.filter(allbill => allbill.id !== bill.id) 
+
     this.setState({
       userInfo: {
         ...this.state.userInfo,

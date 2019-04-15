@@ -7,26 +7,14 @@ import ChartistGraph from "react-chartist";
 import withStyles from "@material-ui/core/styles/withStyles";
 import Icon from "@material-ui/core/Icon";
 // @material-ui/icons
-import Store from "@material-ui/icons/Store";
 import Warning from "@material-ui/icons/Warning";
-import DateRange from "@material-ui/icons/DateRange";
-import Person from "@material-ui/icons/Person";
 import Edit from "@material-ui/icons/Edit";
 import Close from "@material-ui/icons/Close";
 import Check from "@material-ui/icons/Check";
-import Remove from "@material-ui/icons/Remove";
 import Add from "@material-ui/icons/Add";
-import Typography from '@material-ui/core/Typography';
 import Modal from '@material-ui/core/Modal';
-
-
-import Update from "@material-ui/icons/Update";
 import ArrowUpward from "@material-ui/icons/ArrowUpward";
 import AccessTime from "@material-ui/icons/AccessTime";
-import Accessibility from "@material-ui/icons/Accessibility";
-import BugReport from "@material-ui/icons/BugReport";
-import Code from "@material-ui/icons/Code";
-import Cloud from "@material-ui/icons/Cloud";
 // core components
 import CustomInput from "components/CustomInput/CustomInput.jsx";
 import Datetime from "react-datetime";
@@ -34,7 +22,6 @@ import FormControl from "@material-ui/core/FormControl";
 import GridItem from "components/Grid/GridItem.jsx";
 import GridContainer from "components/Grid/GridContainer.jsx";
 import Table from "components/Table/Table.jsx";
-import Tasks from "components/Tasks/Tasks.jsx";
 import CustomTabs from "components/CustomTabs/CustomTabs.jsx";
 import Danger from "components/Typography/Danger.jsx";
 import Card from "components/Card/Card.jsx";
@@ -45,19 +32,14 @@ import CardFooter from "components/Card/CardFooter.jsx";
 import Button from "components/CustomButtons/Button.jsx";
 import API from "../../adapters/API";
 import InnerModal from './InnerModal'
+import GetMonthlyLabels from '../../variables/Labels'
+import {sortDatesHighToLow, returnSeries} from '../../variables/DateSort'
 
-import { bugs, website, server } from "variables/general.jsx";
 
-import {
-  dailySalesChart,
-  emailsSubscriptionChart,
-  completedTasksChart
-} from "variables/charts.jsx";
 
 import dashboardStyle from "assets/jss/material-dashboard-pro-react/views/dashboardStyle.jsx";
 
 function getModalStyle() {
-
   return {
     position: 'absolute',
     // top: `${50}%`,
@@ -69,15 +51,63 @@ function getModalStyle() {
 }
 
 
-const styles = theme => ({
-  paper: {
-    position: 'absolute',
+// CHARTS
 
-    backgroundColor: theme.palette.background.paper,
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing.unit * 4,
-    outline: 'none',
+var Chartist = require("chartist");
+
+var delays = 80,
+  durations = 500;
+var delays2 = 80,
+  durations2 = 500;
+
+const dailySalesChart = (that) => ({
+  data: {
+    labels: GetMonthlyLabels(),
+    series: returnSeries(that.props.utilityData.bills.sort(sortDatesHighToLow))
   },
+  options: {
+    lineSmooth: Chartist.Interpolation.cardinal({
+      tension: 0
+    }),
+    low: 0,
+    high: 90, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
+    chartPadding: {
+      top: 0,
+      right: 0,
+      bottom: 0,
+      left: 0
+    }
+  },
+  // for animation
+  animation: {
+    draw: function(data) {
+      if (data.type === "line" || data.type === "area") {
+        data.element.animate({
+          d: {
+            begin: 600,
+            dur: 700,
+            from: data.path
+              .clone()
+              .scale(1, 0)
+              .translate(0, data.chartRect.height())
+              .stringify(),
+            to: data.path.clone().stringify(),
+            easing: Chartist.Svg.Easing.easeOutQuint
+          }
+        });
+      } else if (data.type === "point") {
+        data.element.animate({
+          opacity: {
+            begin: (data.index + 1) * delays,
+            dur: durations,
+            from: 0,
+            to: 1,
+            easing: "ease"
+          }
+        });
+      }
+    }
+  }
 });
 
 
@@ -92,6 +122,12 @@ class ShowUtilityCard extends React.Component {
     open: false,
     billData: {}
   };
+
+
+
+  
+
+  sortedBills = () => this.props.utilityData.bills.sort(sortDatesHighToLow)
 
   handleOpen = () => {
     this.setState({ open: true });
@@ -111,7 +147,7 @@ class ShowUtilityCard extends React.Component {
   }
 
   getNextBillDate = (bills) => {
-    let date = bills[bills.length - 1].bill_date
+    let date = bills[0].bill_date
     return this.formatDate(date)
   } 
 
@@ -125,18 +161,13 @@ class ShowUtilityCard extends React.Component {
     }
 
   formatDate = (date) => {
-    // const formatDate = date
-    //   .split("T")[0]
-    //   .split("-")
-    //   .reverse()
-    //   .join("/")
     var test = new Date(date)
     return test.toDateString()
    }
 
   getBillCost = (bill) => parseFloat(Math.round(bill * 100) / 100).toFixed(2);
 
-  getNextBillCost = (bills) => parseFloat(Math.round((bills[bills.length - 1].cost) * 100) / 100).toFixed(2);
+  getNextBillCost = (bills) => parseFloat(Math.round((bills[0].cost) * 100) / 100).toFixed(2);
   
   
   handleFirstDate(date) {
@@ -216,7 +247,7 @@ class ShowUtilityCard extends React.Component {
                 </CardIcon>
                 <p className={classes.cardCategory} >Your next bill date:</p>
                 <h3 className={classes.cardTitle}>
-                {this.getNextBillDate(utilityData.bills)}
+                {this.getNextBillDate(this.sortedBills())}
                 </h3>
               </CardHeader>
               <CardFooter stats>
@@ -225,7 +256,7 @@ class ShowUtilityCard extends React.Component {
                     <Warning />
                   </Danger>
                   <p>
-                    This is {this.getTimeToNextBill(this.getNextBillDate(utilityData.bills))} days from now
+                    This is {this.getTimeToNextBill(this.sortedBills())} days from now
                   </p>
                 </div>
               </CardFooter>
@@ -238,7 +269,7 @@ class ShowUtilityCard extends React.Component {
                 <Icon>content_copy</Icon>
                 </CardIcon>
                 <p className={classes.cardCategory}>Your next bill cost:</p>
-                <h3 className={classes.cardTitle}>£{this.getNextBillCost(utilityData.bills)}</h3>
+                <h3 className={classes.cardTitle}>£{this.getNextBillCost(this.sortedBills())}</h3>
               </CardHeader>
               <CardFooter stats>
                 <div className={classes.stats}>
@@ -274,7 +305,7 @@ class ShowUtilityCard extends React.Component {
               <CardHeader color="success">
                 <ChartistGraph
                   className="ct-chart"
-                  data={dailySalesChart.data}
+                  data={dailySalesChart(this).data}
                   type="Line"
                   options={dailySalesChart.options}
                   listener={dailySalesChart.animation}
@@ -308,7 +339,7 @@ class ShowUtilityCard extends React.Component {
                   tableHeaderColor="warning"
                   tableHead={["ID", "Cost", "Date", "Actions"]}
                   tableData={
-                    utilityData.bills.map((bill, index) => 
+                    this.sortedBills().map((bill, index) => 
                        [index+1, `£${this.getBillCost(bill.cost)}`, this.formatDate(bill.bill_date), simpleButtons(bill)]
                     )
                   }

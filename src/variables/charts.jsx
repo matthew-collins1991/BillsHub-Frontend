@@ -1,3 +1,5 @@
+// import getMonthlyLabels from './Labels'
+
 // ##############################
 // // // javascript library for creating charts
 // #############################
@@ -15,9 +17,14 @@ var delays2 = 80,
 // // // Daily Sales
 // #############################
 
+
+
+
+
+
 const dailySalesChart = {
   data: {
-    labels: ["M", "T", "W", "T", "F", "S", "S"],
+    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
     series: [[12, 17, 7, 17, 23, 18, 38]]
   },
   options: {
@@ -76,7 +83,7 @@ const emailsSubscriptionChart = {
       "Feb",
       "Mar",
       "Apr",
-      "Mai",
+      "May",
       "Jun",
       "Jul",
       "Aug",
