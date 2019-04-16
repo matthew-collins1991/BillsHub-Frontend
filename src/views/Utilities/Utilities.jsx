@@ -43,10 +43,10 @@ render() {
    <div>
      <GridContainer>
 
-     <GridItem xs={12} sm={6} md={6} lg={4}>
+     <GridItem xs={12} sm={6} md={6} lg={4} >
 
      <Link to="/admin/utilities/new" >
-            <Card chart >
+            <Card style={{width: 50+'%'}} >
             <CardHeader color="success" stats icon>
                 <CardIcon color="success">
                   <Icon>add_circle_outline</Icon>

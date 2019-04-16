@@ -5,6 +5,11 @@ import Datetime from "react-datetime";
 // import DataListInput from 'react-datalist-input'
 // core components
 import GridItem from "components/Grid/GridItem.jsx";
+import PropTypes from 'prop-types';
+import TextField from '@material-ui/core/TextField';
+import Paper from '@material-ui/core/Paper';
+import Chip from '@material-ui/core/Chip';
+import deburr from 'lodash/deburr';
 
 import GridContainer from "components/Grid/GridContainer.jsx";
 import CustomInput from "components/CustomInput/CustomInput.jsx";
@@ -28,7 +33,49 @@ import {
   logoStyle
 } from "./UtilitiesStrings.js";
 import { Link } from "react-router-dom";
-// import Select from 'react-select';
+import Downshift from 'downshift'
+
+
+
+function renderInput(inputProps) {
+  const { InputProps, classes, ref, ...other } = inputProps;
+
+  return (
+    <TextField
+      InputProps={{
+        inputRef: ref,
+        classes: {
+          root: classes.inputRoot,
+          input: classes.inputInput,
+        },
+        ...InputProps,
+      }}
+      {...other}
+    />
+  );
+}
+
+function renderSuggestion({ suggestion, index, itemProps, highlightedIndex, selectedItem }) {
+  const isHighlighted = highlightedIndex === index;
+  const isSelected = (selectedItem || '').indexOf(suggestion.label) > -1;
+
+  return (
+    <MenuItem
+      {...itemProps}
+      key={suggestion.label}
+      selected={isHighlighted}
+      component="div"
+      style={{
+        fontWeight: isSelected ? 500 : 400,
+      }}
+    >
+      {suggestion.label}
+    </MenuItem>
+  );
+}
+
+
+
 
 class NewUtilityCard extends React.Component {
   state = {
@@ -47,8 +94,36 @@ class NewUtilityCard extends React.Component {
     companyLogo: "/image_placeholder.jpg",
     showLocation: false,
     showAge: false,
-    showHouseSize: false
+    showHouseSize: false,
+    inputValue: '',
+    selectedItem: [],
+    suggestions: []
   };
+
+  suggestions = () => {
+    return this.state.suggestions !== [] && 
+    this.state.suggestions.map(suggestion => {return {label: suggestion.name}} )
+  }
+
+  getSuggestions = (value) => {
+    const inputValue = deburr(value.trim()).toLowerCase();
+    const inputLength = inputValue.length;
+    let count = 0;
+  
+    return inputLength === 0
+      ? []
+      : this.suggestions().filter(suggestion => {
+          const keep =
+            count < 5 && suggestion.label.slice(0, inputLength).toLowerCase() === inputValue;
+  
+          if (keep) {
+            count += 1;
+          }
+  
+          return keep;
+        });
+  }
+  
 
   handleStartDate(date) {
     this.setState({ startDate: date });
@@ -71,6 +146,14 @@ class NewUtilityCard extends React.Component {
     });
   }
 
+  handleKeyDown = event => {
+    const { inputValue, selectedItem } = this.state;
+    if (selectedItem.length && !inputValue.length && event.key === 'Backspace') {
+      this.setState({
+        selectedItem: selectedItem.slice(0, selectedItem.length - 1),
+      });
+    }
+  };
 
 
   handleSubmitClick = () => {
@@ -144,18 +227,16 @@ class NewUtilityCard extends React.Component {
     return this.props.companyData.slice(-1)[0].id+1
   }
 
-  handleCancelClick = () => console.log(this.props.userInfo)
-
   handleChange = event =>
     this.setState({ [event.target.name]: event.target.value });
 
   handleCompanyChange = event => {
+    this.setState({ inputValue: event.target.value })
     this.setState({ [event.target.name]: event.target.value });
     API.findLogo(event.target.value).then(logo => {
       logo.length > 0
         ? this.setState({
-            companyUrl: logo[0].domain,
-            companyLogo: logo[0].logo
+            suggestions: logo
           })
         : this.setState({
             companyUrl: "",
@@ -163,6 +244,43 @@ class NewUtilityCard extends React.Component {
           });
     });
   };
+
+  handleInputChange = event => {
+    this.setState({ inputValue: event.target.value });
+  };
+
+  handleDelete = item => () => {
+    this.setState(state => {
+      const selectedItem = [...state.selectedItem];
+      selectedItem.splice(selectedItem.indexOf(item), 1);
+      return { selectedItem };
+    });
+  };
+
+  
+
+  handleDropDownChange = item => {
+    let { selectedItem, suggestions } = this.state;
+
+    if (selectedItem.indexOf(item) === -1) {
+      selectedItem = item;
+      const apiObj = suggestions.find(suggestion => suggestion.name === item)
+      console.log(apiObj)
+      this.setState({
+        companyName: apiObj.name,
+        companyUrl: apiObj.domain,
+      companyLogo: apiObj.logo
+      });
+    }
+
+
+
+    this.setState({
+      inputValue: '',
+      selectedItem
+    });
+  };
+
 
   handleUtilityChange = event => {
     let fullBill=[]
@@ -178,7 +296,8 @@ class NewUtilityCard extends React.Component {
 
   render() {
     const { classes } = this.props;
-      const { showHouseSize, showAge, showLocation } = this.state;
+    const { showHouseSize, showAge, showLocation } = this.state;
+    const { inputValue, selectedItem } = this.state;
     const { handleChange, handleCompanyChange } = this;
 
     return (
@@ -196,25 +315,64 @@ class NewUtilityCard extends React.Component {
               </CardHeader>
               <CardBody>
                 <GridContainer>
-                  <GridItem xs={12} sm={4} md={4}>
-                    <CustomInput
-                      labelText="Company Name"
-                      id="company-name"
-                      MenuProps={{
-                        className: classes.selectMenu
-                      }}
-                      classes={{
-                        select: classes.select
-                      }}
-                      inputProps={{
-                        name: "companyName",
-                        onChange: handleCompanyChange,
-                        type: 'datalist'
-                      }}
-                    >
-                        </CustomInput>
+                  <GridItem xs={12} sm={4} md={4} style={{marginTop: 26 + 'px'}}>
+                  <Downshift id="downshift-simple"
+                   inputValue={inputValue}
+                   onChange={this.handleDropDownChange}
+                   selectedItem={selectedItem}
+                 >
+        {({
+          getInputProps,
+          getItemProps,
+          getMenuProps,
+          highlightedIndex,
+          inputValue,
+          isOpen,
+          selectedItem,
+        }) => (
+          <div className={classes.container}>
+            {renderInput({
+              fullWidth: true,
+              classes,
+              InputProps: getInputProps({
+                onChange: this.handleCompanyChange,
+                onKeyDown: this.handleKeyDown,
+                placeholder: 'Search a company',
+              }),
+            })}
+            <div {...getMenuProps()}>
+              {isOpen ? (
+                <Paper className={classes.paper} square>
+                  {this.getSuggestions(inputValue).map((suggestion, index) =>
+                    renderSuggestion({
+                      suggestion,
+                      index,
+                      itemProps: getItemProps({ item: suggestion.label }),
+                      highlightedIndex,
+                      selectedItem,
+                    }),
+                  )}
+                </Paper>
+              ) : null}
+            </div>
+          </div>
+        )}
+      </Downshift>
+                    
                   </GridItem>
                   <GridItem xs={12} sm={4} md={4}>
+                  <CustomInput
+                      labelText="Company Name"
+                      id="company-name"
+                      formControlProps={{
+                        fullWidth: true
+                      }}
+                      inputProps={{
+                        value: this.state.companyName,
+                        disabled: true,
+                        name: "companyName"
+                      }}
+                    />
                     <CustomInput
                       labelText="Company URL"
                       id="company-url"
