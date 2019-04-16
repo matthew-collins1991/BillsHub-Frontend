@@ -1,5 +1,5 @@
 
-
+const monthlyLabelsFull =  ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 
 const monthlyLabels = [
     ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
@@ -27,6 +27,12 @@ const monthlyLabels = [
         }else{
         return monthlyLabels[monthInt+3]
         }
+    }
+
+    export const ThisMonth =() => {
+      let today = new Date()
+        let monthInt = today.getMonth()
+        return monthlyLabelsFull[monthInt]
     }
 
 

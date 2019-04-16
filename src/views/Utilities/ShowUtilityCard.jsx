@@ -11,6 +11,7 @@ import Warning from "@material-ui/icons/Warning";
 import Edit from "@material-ui/icons/Edit";
 import Close from "@material-ui/icons/Close";
 import Check from "@material-ui/icons/Check";
+import Create from "@material-ui/icons/Create";
 import Add from "@material-ui/icons/Add";
 import Modal from '@material-ui/core/Modal';
 import ArrowUpward from "@material-ui/icons/ArrowUpward";
@@ -32,7 +33,7 @@ import CardFooter from "components/Card/CardFooter.jsx";
 import Button from "components/CustomButtons/Button.jsx";
 import API from "../../adapters/API";
 import InnerModal from './InnerModal'
-import {GetMonthlyLabels, GetBillLabels} from '../../variables/Labels'
+import {GetMonthlyLabels} from '../../variables/Labels'
 import {sortDatesHighToLow, returnSeries} from '../../variables/DateSort'
 
 
@@ -57,8 +58,6 @@ var Chartist = require("chartist");
 
 var delays = 80,
   durations = 500;
-var delays2 = 80,
-  durations2 = 500;
 
 const MonthlyBillChart = (that) => ({
   data: {
@@ -67,10 +66,11 @@ const MonthlyBillChart = (that) => ({
   },
   options: {
     lineSmooth: Chartist.Interpolation.cardinal({
-      tension: 0
+      tension: 5
     }),
-    low: 0,
-    high: 90, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
+    showArea: true,
+    low: that.minValue(),
+    high: that.maxValue(), // creative tim: we recommend you to set the high sa the biggest value + something for a better look
     chartPadding: {
       top: 0,
       right: 0,
@@ -124,8 +124,17 @@ class ShowUtilityCard extends React.Component {
   };
 
 
-
+maxValue = () => {
+  let arr = returnSeries(this.props.utilityData.bills.sort(sortDatesHighToLow)).flat()
+  let max = Math.max(...arr)
+  return (max+(max*0.2))
+}
   
+minValue = () => {
+  let arr = returnSeries(this.props.utilityData.bills.sort(sortDatesHighToLow)).flat()
+  let min = Math.min(...arr)
+  return (min-(min*0.5))
+}
 
   sortedBills = () => this.props.utilityData.bills.sort(sortDatesHighToLow)
 
@@ -218,7 +227,7 @@ class ShowUtilityCard extends React.Component {
   };
 
   render() {
-    const { classes, utilityData, userInfo } = this.props;
+    const { classes, utilityData} = this.props;
     const simpleButtons = (bill) => [
       { color: "success", icon: Edit, bill: bill },
       { color: "danger", icon: Close, bill: bill }
@@ -280,7 +289,7 @@ class ShowUtilityCard extends React.Component {
           </GridItem>
           
           <GridItem xs={12} sm={4} md={4} lg={4}>
-          <a href={'https://' + this.findCompany(utilityData).url} target="_blank">
+          <a href={'https://' + this.findCompany(utilityData).url} target="_blank" rel="noopener noreferrer">
             <Card>
               <CardHeader color="danger" stats icon>
                 <CardIcon color="danger">
@@ -307,8 +316,8 @@ class ShowUtilityCard extends React.Component {
                   className="ct-chart"
                   data={MonthlyBillChart(this).data}
                   type="Line"
-                  options={MonthlyBillChart.options}
-                  listener={MonthlyBillChart.animation}
+                  options={MonthlyBillChart(this).options}
+                  listener={MonthlyBillChart(this).animation}
                 />
               </CardHeader>
               <CardBody>
@@ -337,7 +346,7 @@ class ShowUtilityCard extends React.Component {
                   tabContent: (
                     <Table
                     tableHeaderColor="warning"
-                    tableHead={["Detail", "Info"]}
+                    tableHead={["ID", "Cost", 'Due Date', 'Actions']}
                     tableData={
                       this.sortedBills().map((bill, index) => 
                          [index+1, `£${this.getBillCost(bill.cost)}`, this.formatDate(bill.bill_date), simpleButtons(bill)]
@@ -391,16 +400,18 @@ class ShowUtilityCard extends React.Component {
                 },
                 {
                   tabName: "Contract Info",
-                  tabIcon: Check,
+                  tabIcon: Create,
                   tabContent: (
                     
                 <Table
                 tableHeaderColor="warning"
                 tableHead={["Detail", "Info"]}
                 tableData={[
-                   
+                     ['Utility Type:',  this.props.utilityData.utility_type],
                      ['Start Date:',  this.formatDate(this.props.utilityData.start_date)],
                      ['Renewal Date:',  this.formatDate(this.props.utilityData.renewal_date)],
+                     ['Payment Method:',  this.props.utilityData.payment_type],
+                     ['Payment Frequency:',  this.props.utilityData.payment_freq]
                 ]
                 }
               />

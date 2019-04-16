@@ -60,7 +60,7 @@ class UserContainer extends React.Component{
   };
 
   handleColorClick = color => {
-    this.props. handleColorClick(color)
+    this.props.handleColorClick(color)
     this.setState({
       color: color
     })

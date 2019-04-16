@@ -2,6 +2,7 @@ import React from "react";
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
 import Datetime from "react-datetime";
+// import DataListInput from 'react-datalist-input'
 // core components
 import GridItem from "components/Grid/GridItem.jsx";
 
@@ -27,6 +28,7 @@ import {
   logoStyle
 } from "./UtilitiesStrings.js";
 import { Link } from "react-router-dom";
+// import Select from 'react-select';
 
 class NewUtilityCard extends React.Component {
   state = {
@@ -173,10 +175,12 @@ class NewUtilityCard extends React.Component {
     });
   };
 
+
   render() {
     const { classes } = this.props;
       const { showHouseSize, showAge, showLocation } = this.state;
     const { handleChange, handleCompanyChange } = this;
+
     return (
       <div>
         <GridContainer>
@@ -196,14 +200,19 @@ class NewUtilityCard extends React.Component {
                     <CustomInput
                       labelText="Company Name"
                       id="company-name"
-                      formControlProps={{
-                        fullWidth: true
+                      MenuProps={{
+                        className: classes.selectMenu
+                      }}
+                      classes={{
+                        select: classes.select
                       }}
                       inputProps={{
                         name: "companyName",
-                        onChange: handleCompanyChange
+                        onChange: handleCompanyChange,
+                        type: 'datalist'
                       }}
-                    />
+                    >
+                        </CustomInput>
                   </GridItem>
                   <GridItem xs={12} sm={4} md={4}>
                     <CustomInput

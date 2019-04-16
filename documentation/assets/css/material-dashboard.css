@@ -752,7 +752,7 @@ h2.title {
 
 .sidebar .nav li:hover > a,
 .off-canvas-sidebar .nav li:hover > a {
-  background: rgba(200, 200, 200, 0.2);
+  background: rgba(200, 200, 200, 0.4);
   color: #3c4858;
 }
 
@@ -939,7 +939,7 @@ h2.title {
 }
 
 .off-canvas-sidebar .nav > li > a:focus {
-  background: rgba(200, 200, 200, 0.2);
+  background: rgba(200, 200, 200, 0.4);
 }
 
 .perfect-scrollbar-on .sidebar .sidebar-wrapper,
@@ -4179,7 +4179,7 @@ fieldset[disabled] .form-group.is-focused .togglebutton label {
 }
 
 .nav-pills > li > a:hover {
-  background-color: rgba(200, 200, 200, 0.2);
+  background-color: rgba(200, 200, 200, 0.4);
 }
 
 .nav-pills > li i {
@@ -5885,12 +5885,12 @@ footer .btn {
 .ct-series-a .ct-line,
 .ct-series-a .ct-bar,
 .ct-series-a .ct-slice-donut {
-  stroke: #00bcd4;
+  stroke: #2f818b;
 }
 
 .ct-series-a .ct-slice-pie,
 .ct-series-a .ct-area {
-  fill: #00bcd4;
+  fill: #2f818b;
 }
 
 .ct-series-b .ct-point,
@@ -5969,12 +5969,12 @@ footer .btn {
 .ct-series-h .ct-line,
 .ct-series-h .ct-bar,
 .ct-series-h .ct-slice-donut {
-  stroke: #dd4b39;
+  stroke: #96c245;
 }
 
 .ct-series-h .ct-slice-pie,
 .ct-series-h .ct-area {
-  fill: #dd4b39;
+  fill: #96c245;
 }
 
 .ct-series-i .ct-point,
@@ -6894,7 +6894,7 @@ footer .btn {
     .dropdown-menu
     > li
     > a:active {
-    color: white;
+    color: #rgba(200, 200, 200, 0.3)	;
   }
   [class*="navbar-"] .navbar-nav > li > a,
   [class*="navbar-"] .navbar-nav > li > a:hover,

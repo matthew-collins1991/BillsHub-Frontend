@@ -1,4 +1,5 @@
 // import getMonthlyLabels from './Labels'
+// import chartsStyle from "assets/jss/material-dashboard-pro-react/views/chartsStyle.jsx";
 
 // ##############################
 // // // javascript library for creating charts
@@ -190,8 +191,25 @@ const completedTasksChart = {
   }
 };
 
+const pieChart = {
+  data: {
+    labels: ["62%", "32%", "6%"],
+    series: [62, 32, 6]
+  },
+  options: {
+    height: "230px",
+
+  }
+};
+
 module.exports = {
+
   dailySalesChart,
   emailsSubscriptionChart,
-  completedTasksChart
+  completedTasksChart,
+
+  pieChart
 };
+
+
+

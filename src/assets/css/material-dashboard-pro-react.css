@@ -357,7 +357,7 @@ footer ul li a:hover {
 }
 
 .fixed-plugin .badge-white {
-  background-color: white;
+  background-color: rgba(200, 200, 200, 0.3)	;
 }
 
 .fixed-plugin h5 {
@@ -515,6 +515,14 @@ footer ul li a:hover {
 .fixed-plugin.rtl-fixed-plugin .dropdown-menu {
   right: auto;
   left: 80px;
+}
+
+.fixed-plugin .fa-circle-thin {
+  color: #ffffff;
+}
+
+.fixed-plugin .active .fa-circle-thin {
+  color: #00bbff;
 }
 
 

@@ -144,6 +144,17 @@ class FixedPlugin extends Component {
                       this.props.handleBgColorClick("black");
                     }}
                   />
+                  <span
+                    className={
+                      this.props.bgColor === "white"
+                        ? "badge filter badge-white active"
+                        : "badge filter badge-white"
+                    }
+                    data-color="white"
+                    onClick={() => {
+                      this.props.handleBgColorClick("white");
+                    }}
+                  />
                 </div>
                 <div className="clearfix" />
               </a>

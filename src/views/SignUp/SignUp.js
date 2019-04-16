@@ -15,6 +15,10 @@ import CardFooter from "components/Card/CardFooter.jsx";
 import { NavLink } from "react-router-dom"
 import API from '../../adapters/API'
 
+import login from "assets/img/login.jpg";
+
+import loginPageStyle from "assets/jss/material-dashboard-pro-react/views/loginPageStyle.jsx";
+
 
 const styles = {
   cardCategoryWhite: {
@@ -54,6 +58,9 @@ class SignUp extends React.Component {
     };
   }
 
+  getBgImage = () => {
+    return login;
+};
 
   handleSubmit = () => {
     const { signUp, history } = this.props;
@@ -87,12 +94,17 @@ class SignUp extends React.Component {
 render(){
   const { classes } = this.props;
   return (
-    <div>
-      <GridContainer>
-      <GridItem xs={false} sm={1} md={2} />
-        <GridItem xs={12} sm={10} md={8}>
-          <Card>
-          <CardHeader color="primary">
+    <div className={classes.wrapper} ref="wrapper">
+    <div
+          className={classes.fullPage}
+          style={{ backgroundImage: "url(" + this.getBgImage() + ")" }}
+        >
+
+    <div className={classes.container}>
+      <GridContainer justify="center">
+        <GridItem xs={12} sm={6} md={4}>
+          <Card login className={classes}>
+          <CardHeader color="primary" className={`${classes.cardHeader} ${classes.textCenter}`}>
           <h4 className={classes.cardTitleWhite}>Sign Up</h4>
           <p className={classes.cardCategoryWhite}>
             If you have an account, log in{" "}
@@ -166,18 +178,20 @@ render(){
                 </GridItem>
               </GridContainer>
             </CardBody>
-            <CardFooter>
+            <CardFooter className={classes.justifyContentCenter}>
                 <NavLink to="/admin/bills" >
               <Button color="primary" onClick={this.handleSubmit}>Sign Up</Button>
                 </NavLink>
             </CardFooter>
           </Card>
         </GridItem>
-        <GridItem xs={false} sm={1} md={2} />
+
       </GridContainer>
+    </div>
+    </div>
     </div>
   );
 }
 }
 
-export default withStyles(styles)(SignUp);
+export default withStyles(loginPageStyle)(SignUp);

@@ -4,7 +4,8 @@ import PropTypes from "prop-types";
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
 import AccessTime from "@material-ui/icons/AccessTime";
-import ChartistGraph from "react-chartist";
+import Icon from "@material-ui/core/Icon";
+import CardIcon from "components/Card/CardIcon.jsx";
 // core components
 import GridItem from "components/Grid/GridItem.jsx";
 import GridContainer from "components/Grid/GridContainer.jsx";
@@ -12,10 +13,9 @@ import Card from "components/Card/Card.jsx";
 import CardHeader from "components/Card/CardHeader.jsx";
 import CardFooter from "components/Card/CardFooter.jsx";
 import CardBody from "components/Card/CardBody.jsx";
-import {dailySalesChart} from "variables/charts.jsx";
 import iconsStyle from "assets/jss/material-dashboard-pro-react/views/iconsStyle.jsx";
 import { Link } from 'react-router-dom'
-import API from "../../adapters/API";
+// import API from "../../adapters/API";
 import {
   logoImageStyle,
   logoStyle
@@ -47,16 +47,12 @@ render() {
 
      <Link to="/admin/utilities/new" >
             <Card chart >
-              <CardHeader color="success" >
-                <ChartistGraph
-                  className="ct-chart"
-                  data={dailySalesChart.data}
-                  type="Line"
-                  options={dailySalesChart.options}
-                  listener={dailySalesChart.animation}
-                />
-              </CardHeader>
-              <CardBody >
+            <CardHeader color="success" stats icon>
+                <CardIcon color="success">
+                  <Icon>add_circle_outline</Icon>
+                </CardIcon>
+                </CardHeader>
+                <CardBody>
                 <h4 className={classes.cardTitle}>Create New</h4>
                 <p className={classes.cardCategory}>
                   <span className={classes.successText}>

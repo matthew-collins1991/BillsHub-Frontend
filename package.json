@@ -17,12 +17,14 @@
     "prop-types": "15.7.1",
     "react": "16.8.1",
     "react-chartist": "0.13.3",
+    "react-datalist-input": "^1.0.4",
     "react-datetime": "^2.16.3",
     "react-dom": "16.8.1",
     "react-google-maps": "9.4.5",
     "react-moment": "^0.9.1",
     "react-router-dom": "4.3.1",
     "react-scripts": "2.1.5",
+    "react-select": "^2.4.2",
     "react-swipeable-views": "0.13.1"
   },
   "scripts": {

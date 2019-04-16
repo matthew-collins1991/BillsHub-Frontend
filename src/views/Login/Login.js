@@ -11,7 +11,13 @@ import CardHeader from "components/Card/CardHeader.jsx";
 import CardBody from "components/Card/CardBody.jsx";
 import CardFooter from "components/Card/CardFooter.jsx";
 import API from '../../adapters/API'
-import GetMonthlyLabels from '../../variables/Labels'
+import InputAdornment from "@material-ui/core/InputAdornment";
+import Email from "@material-ui/icons/Email";
+import Icon from "@material-ui/core/Icon";
+import login from "assets/img/login.jpeg";
+
+import loginPageStyle from "assets/jss/material-dashboard-pro-react/views/loginPageStyle.jsx";
+
 
 
 const styles = {
@@ -47,6 +53,10 @@ class Login extends React.Component {
     };
   }
 
+  getBgImage = () => {
+      return login;
+  };
+
 
   handleSubmit = () => {
     const { login, history } = this.props;
@@ -71,14 +81,19 @@ class Login extends React.Component {
     this.setState({ password: event.target.value });
 
   render(){
-    const { classes } = this.props;
+    const { classes, ...rest } = this.props;
     return (
-      <div>
-        <GridContainer>
-        <GridItem xs={false} sm={1} md={2} />
-          <GridItem xs={12} sm={10} md={8}>
-            <Card>
-            <CardHeader color="primary">
+      <div className={classes.wrapper} ref="wrapper">
+      <div
+            className={classes.fullPage}
+            style={{ backgroundImage: "url(" + this.getBgImage() + ")" }}
+          >
+
+      <div className={classes.container}>
+        <GridContainer justify="center">
+          <GridItem xs={12} sm={6} md={4}>
+            <Card login className={classes}>
+            <CardHeader color="primary" className={`${classes.cardHeader} ${classes.textCenter}`}>
             <h4 className={classes.cardTitleWhite}>Log In</h4>
             <p className={classes.cardCategoryWhite}>
               Or sign up {" "}
@@ -98,7 +113,12 @@ class Login extends React.Component {
                         onChange: this.handleEmailChange
                       }}
                       inputProps={{
-                        type: "email"
+                        type: "email",
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <Email className={classes.inputAdornmentIcon} />
+                          </InputAdornment>
+                        )
                       }}
                     />
                   </GridItem>
@@ -114,25 +134,34 @@ class Login extends React.Component {
                       }}
                       inputProps={{
                         type: "password",
-                        onSubmit: this.handleSubmit
+                        onSubmit: this.handleSubmit,
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <Icon className={classes.inputAdornmentIcon}>
+                              lock_outline
+                            </Icon>
+                          </InputAdornment>
+                        )
                       }}
                     />
                   </GridItem>
                 </GridContainer>
               </CardBody>
-              <CardFooter>
+              <CardFooter className={classes.justifyContentCenter}>
                   
-                <Button color="primary" onClick={this.handleSubmit}>Log In</Button>
+                <Button color="primary" onClick={this.handleSubmit} >Log In</Button>
                   
               </CardFooter>
             </Card>
           </GridItem>
-          <GridItem xs={false} sm={1} md={2} />
+
         </GridContainer>
+      </div>
+      </div>
       </div>
     );
   }
 
 }
 
-export default withStyles(styles)(Login);
+export default withStyles(loginPageStyle)(Login);
