@@ -13,6 +13,7 @@ import Snackbar from "components/Snackbar/Snackbar.jsx";
 import Card from "components/Card/Card.jsx";
 import CardHeader from "components/Card/CardHeader.jsx";
 import CardBody from "components/Card/CardBody.jsx";
+import { returnSeries, GetMonthBillCostsAndLabels, GetYearBillCostsAndLabels, GetNextMonthBillCostsAndLabels, getTimeToNextBill} from '../../variables/DateSort'
 
 const styles = {
   cardCategoryWhite: {
@@ -44,6 +45,8 @@ const styles = {
   }
 };
 
+
+
 class NotificationContainer extends React.Component {
   constructor(props) {
     super(props);
@@ -53,7 +56,8 @@ class NotificationContainer extends React.Component {
       tr: false,
       bl: false,
       bc: false,
-      br: false
+      br: false,
+      notificationsArray : []
     };
   }
   // to stop the warning of calling setState of unmounted component
@@ -75,224 +79,143 @@ class NotificationContainer extends React.Component {
       6000
     );
   }
+
+  findCompany = (bill) => {
+    let company = this.props.companyData.find(company => company.id === bill.company_id)
+    return company
+  }
+
+
+  allBillsArray = () => {
+    let allBills = []
+    this.props.userInfo.utilities && this.props.userInfo.utilities.map(utility => utility.bills.map(bill => {
+      bill.company_id = utility.company_id
+      return allBills = [...allBills, bill]
+    }))
+
+    return allBills
+  }
+
+  allUtilitiesArray = () => {
+    let allUtilities = []
+      this.props.userInfo.utilities && this.props.userInfo.utilities.map(utility =>  allUtilities = [...allUtilities, utility])
+      return allUtilities
+  }
+
+  findBillsOverNextWeek = (bills) => {
+    let arr= []
+    bills.map(bill => {if(getTimeToNextBill(bill.bill_date)> 0 && getTimeToNextBill(bill.bill_date)< 8) {
+      bill.daysRemaining = getTimeToNextBill(bill.bill_date)
+       arr = [...arr, bill]
+      }})
+      let sortedArr = arr.sort(function(a,b){return a.daysRemaining-b.daysRemaining})
+      return sortedArr
+  }
+
+  findUtilitiesRenewNextMonth = (utilities) => {
+    let arr= []
+    utilities.map(utility => {if(getTimeToNextBill(utility.renewal_date)> 0 && getTimeToNextBill(utility.renewal_date)< 32) {
+      utility.daysRemaining = getTimeToNextBill(utility.renewal_date)
+       arr = [...arr, utility]
+      }})
+      let sortedArr = arr.sort(function(a,b){return a.daysRemaining-b.daysRemaining})
+      return sortedArr
+  }
+
+billMessage = (days) => {
+  if (days === 1){
+    return ['today', 'danger']
+  }else if(days === 2){
+    return ['tomorrow', 'warning']
+  }else {
+    return [`in ${days} days time.`, 'success']
+  }
+} 
+
+utilityMessage = (days) => {
+  if (days === 1){
+    return ['today', 'danger']
+  }else if(days === 2){
+    return ['tomorrow', 'warning']
+  }else if(days < 15){
+      return [`in ${days} days time.`, 'warning']
+  }else {
+    return [`in ${days} days time.`, 'success']
+  }
+} 
+
+
   render() {
     const { classes } = this.props;
     return (
+      <div>
+      <GridContainer>
+      <GridItem xs={false} sm={false} md={3}/>
+      <GridItem xs={12} sm={12} md={6}>
       <Card>
         <CardHeader color="primary">
-          <h4 className={classes.cardTitleWhite}>Notifications</h4>
+          <h4 className={classes.cardTitleWhite}>Bill Notifications</h4>
           <p className={classes.cardCategoryWhite}>
-            Handcrafted by our friends from{" "}
-            <a target="_blank" href="https://material-ui-next.com/">
-              Material UI
-            </a>{" "}
-            and styled by{" "}
-            <a target="_blank" href="https://www.creative-tim.com/">
-              Creative Tim
-            </a>
-            . Please checkout the{" "}
-            <a href="#pablo" target="_blank">
-              full documentation
-            </a>
-            .
+            Below are your upcoming bills in the next week 
           </p>
         </CardHeader>
         <CardBody>
           <GridContainer>
-            <GridItem xs={12} sm={12} md={6}>
-              <h5>Notifications Style</h5>
-              <br />
-              <SnackbarContent message={"This is a plain notification"} />
-              <SnackbarContent
-                message={"This is a notification with close button."}
-                close
-              />
-              <SnackbarContent
-                message={"This is a notification with close button and icon."}
-                close
-                icon={AddAlert}
-              />
-              <SnackbarContent
-                message={
-                  "This is a notification with close button and icon and have many lines. You can see that the icon and the close button are always vertically aligned. This is a beautiful notification. So you don't have to worry about the style."
-                }
-                close
-                icon={AddAlert}
-              />
+            <GridItem xs={12} sm={12} md={12}>
+            {this.props.userInfo && this.findBillsOverNextWeek(this.allBillsArray()).map(bill => {
+              return (
+               <SnackbarContent
+               message={
+                 `Your bill for ${this.findCompany(bill).name} is due ${this.billMessage(bill.daysRemaining)[0]}`
+               }
+               close
+               color={this.billMessage(bill.daysRemaining)[1]}
+             />
+              )
+            })}
             </GridItem>
-            <GridItem xs={12} sm={12} md={6}>
-              <h5>Notifications States</h5>
-              <br />
-              <SnackbarContent
-                message={
-                  'INFO - This is a regular notification made with color="info"'
-                }
-                close
-                color="info"
-              />
-              <SnackbarContent
-                message={
-                  'SUCCESS - This is a regular notification made with color="success"'
-                }
-                close
-                color="success"
-              />
-              <SnackbarContent
-                message={
-                  'WARNING - This is a regular notification made with color="warning"'
-                }
-                close
-                color="warning"
-              />
-              <SnackbarContent
-                message={
-                  'DANGER - This is a regular notification made with color="danger"'
-                }
-                close
-                color="danger"
-              />
-              <SnackbarContent
-                message={
-                  'PRIMARY - This is a regular notification made with color="primary"'
-                }
-                close
-                color="primary"
-              />
-            </GridItem>
+            
           </GridContainer>
-          <br />
-          <br />
-          <GridContainer justify="center">
-            <GridItem xs={12} sm={12} md={6} style={{ textAlign: "center" }}>
-              <h5>
-                Notifications Places
-                <br />
-                <small>Click to view notifications</small>
-              </h5>
-            </GridItem>
-          </GridContainer>
-          <GridContainer justify="center">
-            <GridItem xs={12} sm={12} md={10} lg={8}>
-              <GridContainer>
-                <GridItem xs={12} sm={12} md={4}>
-                  <Button
-                    fullWidth
-                    color="primary"
-                    onClick={() => this.showNotification("tl")}
-                  >
-                    Top Left
-                  </Button>
-                  <Snackbar
-                    place="tl"
-                    color="info"
-                    icon={AddAlert}
-                    message="Welcome to MATERIAL DASHBOARD React - a beautiful freebie for every web developer."
-                    open={this.state.tl}
-                    closeNotification={() => this.setState({ tl: false })}
-                    close
-                  />
-                </GridItem>
-                <GridItem xs={12} sm={12} md={4}>
-                  <Button
-                    fullWidth
-                    color="primary"
-                    onClick={() => this.showNotification("tc")}
-                  >
-                    Top Center
-                  </Button>
-                  <Snackbar
-                    place="tc"
-                    color="info"
-                    icon={AddAlert}
-                    message="Welcome to MATERIAL DASHBOARD React - a beautiful freebie for every web developer."
-                    open={this.state.tc}
-                    closeNotification={() => this.setState({ tc: false })}
-                    close
-                  />
-                </GridItem>
-                <GridItem xs={12} sm={12} md={4}>
-                  <Button
-                    fullWidth
-                    color="primary"
-                    onClick={() => this.showNotification("tr")}
-                  >
-                    Top Right
-                  </Button>
-                  <Snackbar
-                    place="tr"
-                    color="info"
-                    icon={AddAlert}
-                    message="Welcome to MATERIAL DASHBOARD React - a beautiful freebie for every web developer."
-                    open={this.state.tr}
-                    closeNotification={() => this.setState({ tr: false })}
-                    close
-                  />
-                </GridItem>
-              </GridContainer>
-            </GridItem>
-          </GridContainer>
-          <GridContainer justify={"center"}>
-            <GridItem xs={12} sm={12} md={10} lg={8}>
-              <GridContainer>
-                <GridItem xs={12} sm={12} md={4}>
-                  <Button
-                    fullWidth
-                    color="primary"
-                    onClick={() => this.showNotification("bl")}
-                  >
-                    Bottom Left
-                  </Button>
-                  <Snackbar
-                    place="bl"
-                    color="info"
-                    icon={AddAlert}
-                    message="Welcome to MATERIAL DASHBOARD React - a beautiful freebie for every web developer."
-                    open={this.state.bl}
-                    closeNotification={() => this.setState({ bl: false })}
-                    close
-                  />
-                </GridItem>
-                <GridItem xs={12} sm={12} md={4}>
-                  <Button
-                    fullWidth
-                    color="primary"
-                    onClick={() => this.showNotification("bc")}
-                  >
-                    Bottom Center
-                  </Button>
-                  <Snackbar
-                    place="bc"
-                    color="info"
-                    icon={AddAlert}
-                    message="Welcome to MATERIAL DASHBOARD React - a beautiful freebie for every web developer."
-                    open={this.state.bc}
-                    closeNotification={() => this.setState({ bc: false })}
-                    close
-                  />
-                </GridItem>
-                <GridItem xs={12} sm={12} md={4}>
-                  <Button
-                    fullWidth
-                    color="primary"
-                    onClick={() => this.showNotification("br")}
-                  >
-                    Bottom Right
-                  </Button>
-                  <Snackbar
-                    place="br"
-                    color="info"
-                    icon={AddAlert}
-                    message="Welcome to MATERIAL DASHBOARD React - a beautiful freebie for every web developer."
-                    open={this.state.br}
-                    closeNotification={() => this.setState({ br: false })}
-                    close
-                  />
-                </GridItem>
-              </GridContainer>
+        </CardBody>
+      </Card>
+      </GridItem>
+      <GridItem xs={false} sm={false} md={3}/>
+      </GridContainer>
+
+       <GridContainer style = {{paddingTop: 30 + 'px'}}>
+       <GridItem xs={false} sm={false} md={3}/>
+      <GridItem xs={12} sm={12} md={6}>
+      <Card>
+        <CardHeader color="primary">
+          <h4 className={classes.cardTitleWhite}>Contract Notifications</h4>
+          <p className={classes.cardCategoryWhite}>
+           Below are any upcoming contract renewals
+          </p>
+        </CardHeader>
+        <CardBody>
+         
+          <GridContainer>
+            <GridItem xs={12} sm={12} md={12}>
+            {this.props.userInfo && this.findUtilitiesRenewNextMonth(this.allUtilitiesArray()).map(utility => {
+              return (
+               <SnackbarContent
+               message={
+                 `Your contract for ${this.findCompany(utility).name} is is up for renewal ${this.utilityMessage(utility.daysRemaining)[0]}`
+               }
+               close
+               color={this.utilityMessage(utility.daysRemaining)[1]}
+             />
+              )
+            })}
             </GridItem>
           </GridContainer>
         </CardBody>
       </Card>
+      </GridItem>
+      <GridItem xs={false} sm={false} md={3}/>
+    </GridContainer>
+    </div>
+    
     );
   }
 }

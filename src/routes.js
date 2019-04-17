@@ -2,12 +2,10 @@ import React from 'react'
 // @material-ui/icons
 import Dashboard from "@material-ui/icons/Dashboard";
 import Person from "@material-ui/icons/Person";
-import BubbleChart from "@material-ui/icons/BubbleChart";
 import Notifications from "@material-ui/icons/Notifications";
 // core components/views for Admin layout
 import DashboardPage from "views/Dashboard/Dashboard.jsx";
 import UserContainer from "views/UserProfile/UserContainer.jsx";
-import CompareContainer from "views/Compare/CompareContainer.jsx";
 import UtilitiesContainer from "views/Utilities/UtilitiesContainer.jsx";
 import NotificationContainer from "views/Notifications/NotificationContainer.jsx";
 
@@ -46,14 +44,14 @@ const dashboardRoutes = [
     icon: Notifications,
     component: (props) => <NotificationContainer {...props} />,
     layout: "/admin"
-  },
-  {
-    path: "/compare",
-    name: "Compare",
-    icon: BubbleChart,
-    component: (props) => <CompareContainer {...props} />,
-    layout: "/admin"
   }
+  // {
+  //   path: "/compare",
+  //   name: "Compare",
+  //   icon: BubbleChart,
+  //   component: (props) => <CompareContainer {...props} />,
+  //   layout: "/admin"
+  // }
 ];
 
 export default dashboardRoutes;

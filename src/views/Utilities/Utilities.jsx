@@ -20,6 +20,7 @@ import {
   logoImageStyle,
   logoStyle
 } from "./UtilitiesStrings.js";
+import {sortDatesHighToLow} from '../../variables/DateSort'
 
 
 
@@ -32,6 +33,12 @@ findCompany = (utility) => {
   return company
 }
 
+formatDate = (date) => {
+  var test = new Date(date)
+  return test.toDateString()
+ }
+
+
 render() {
   const { classes } = this.props;
   const { userInfo } = this.props;
@@ -43,10 +50,10 @@ render() {
    <div>
      <GridContainer>
 
-     <GridItem xs={12} sm={6} md={6} lg={4} >
+     <GridItem xs={12} sm={6} md={6} lg={4} style={{alignSelf: 'center'}}>
 
      <Link to="/admin/utilities/new" >
-            <Card style={{width: 50+'%'}} >
+            <Card >
             <CardHeader color="success" stats icon>
                 <CardIcon color="success">
                   <Icon>add_circle_outline</Icon>
@@ -89,13 +96,13 @@ render() {
                 <h4 className={classes.cardTitle}>{utility.utility_type}</h4>
                 <p className={classes.cardCategory}>
                   <span className={classes.successText}>
-                    Your upcoming bill is £{utility.bills.slice(-1)[0].cost}
+                    Your upcoming bill is £{utility.bills.sort(sortDatesHighToLow).slice(0)[0].cost}
                   </span>{" "}
-                </p>
+                </p> 
               </CardBody>
-              <CardFooter chart>
-                <div className={classes.stats}>
-                  <AccessTime /> updated 4 minutes ago
+              <CardFooter stats>
+                <div className={classes.stats} style={{display: 'inline-flex'}}>
+                  <AccessTime /> <small style={{marginLeft: 2+ 'px'}}>This is due on {this.formatDate(utility.bills.sort(sortDatesHighToLow).slice(0)[0].bill_date)}</small>
                 </div>
               </CardFooter>
             </Card>

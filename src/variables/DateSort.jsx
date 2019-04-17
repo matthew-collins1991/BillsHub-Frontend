@@ -1,12 +1,12 @@
 // import { GetBillLabels } from "./Labels";
 
-const getTimeToNextBill = (date) => {
+export const getTimeToNextBill = (date) => {
     let one_day=1000*60*60*24
     let date1 = new Date(date)
     let date2 = new Date()
-    let diff = date2.getTime() - date1.getTime()
-    let diffPositive = Math.abs(diff)
-    return Math.ceil(diffPositive/one_day)
+    let diff = date1.getTime() - date2.getTime()
+
+    return Math.ceil(diff/one_day)
     }
 
 
@@ -28,10 +28,11 @@ export const returnSeries = (data) => {
     ]
 
     data.map(bill => {
-        if (getTimeToNextBill(bill.bill_date)<324){
+        if (getTimeToNextBill(bill.bill_date)<304){
             let billDate = new Date(bill.bill_date)
             let billMonthInt = billDate.getMonth()
-            if (billMonthInt > 6) {
+            
+            if (billMonthInt >= 6) {
                  return values[billMonthInt-12+6] = values[billMonthInt-12+6] + bill.cost
                 }else{
                 return values[billMonthInt+6] = values[billMonthInt+6] + bill.cost
@@ -55,11 +56,12 @@ export const GetMonthBillCostsAndLabels = (utilities) => {
     let billArray = []
     let today = new Date()
     let monthInt = today.getMonth()
+    let yearInt = today.getFullYear()
 
     // only select utilities that have a bill in current month
     let filteredUtilities = utilities.filter(utility => utility.bills.map(bill => new Date(bill.bill_date).getMonth()).includes(monthInt))
     filteredUtilities.map(utility => utility.bills.map(bill => {
-        if(new Date(bill.bill_date).getMonth() === monthInt) {
+        if(new Date(bill.bill_date).getMonth() === monthInt && new Date(bill.bill_date).getFullYear() === yearInt) {
             bill.utility_type = utility.utility_type
             billArray = [...billArray, bill]
         } 
@@ -73,7 +75,6 @@ export const GetMonthBillCostsAndLabels = (utilities) => {
   }
   this[a.utility_id].cost += a.cost;
 }, Object.create(null));
-
     return costArray
 }
 
@@ -96,9 +97,13 @@ export const GetYearBillCostsAndLabels = (utilities) => {
   billArray.forEach(function (a) {
   if (!this[a.utility_id]) {
       this[a.utility_id] = { utility_id: a.utility_id, utility_type: a.utility_type, cost: 0 };
+
       costArray.push(this[a.utility_id]);
+
   }
-  this[a.utility_id].cost += a.cost;
+
+
+  this[a.utility_id].cost = this[a.utility_id].cost + parseInt(a.cost);
 }, Object.create(null));
    return costArray
     
@@ -110,11 +115,12 @@ export const GetNextMonthBillCostsAndLabels = (utilities) => {
     let billArray = []
     let today = new Date()
     let monthInt = today.getMonth()+1
+    let yearInt = today.getFullYear()
 
     // only select utilities that have a bill in current month
     let filteredUtilities = utilities.filter(utility => utility.bills.map(bill => new Date(bill.bill_date).getMonth()).includes(monthInt))
     filteredUtilities.map(utility => utility.bills.map(bill => {
-        if(new Date(bill.bill_date).getMonth() === monthInt) {
+        if(new Date(bill.bill_date).getMonth() === monthInt && new Date(bill.bill_date).getFullYear() === yearInt) {
             bill.utility_type = utility.utility_type
             billArray = [...billArray, bill]
         } 

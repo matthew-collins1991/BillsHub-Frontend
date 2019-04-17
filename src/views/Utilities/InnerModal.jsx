@@ -40,7 +40,7 @@ class InnerModal extends React.Component {
     super(props);
     this.state = {
       bill_date: "",
-      cost: ""
+      cost: null
     };
   }
 
@@ -48,7 +48,7 @@ class InnerModal extends React.Component {
   handleSubmit = () => {
     const bill = {
         bill_date: this.state.bill_date,
-        cost: this.state.cost,
+        cost: parseInt(this.state.cost),
         id: this.props.billData.id,
         utility_id: this.props.billData.utility_id
     }
@@ -132,7 +132,6 @@ this.setState({ [event.target.name]: event.target.value });
                       name: "cost",
                       onChange: this.handleChange,
                       type: "number",
-                      step: "0.01",
                       min: 0
                     }}
                   />

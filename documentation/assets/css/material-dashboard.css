@@ -5408,9 +5408,12 @@ footer .btn {
 
 .card .card-header .ct-series-a .ct-point,
 .card .card-header .ct-series-a .ct-line,
-.card .card-header .ct-series-a .ct-bar,
-.card .card-header .ct-series-a .ct-slice-donut {
+.card .card-header .ct-series-a .ct-bar {
   stroke: rgba(255, 255, 255, 0.8);
+}
+
+.card .card-header .ct-series-a .ct-slice-donut {
+  stroke: rgba(124, 228, 171, 0.8);
 }
 
 .card .card-header .ct-series-a .ct-slice-pie,

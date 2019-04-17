@@ -6,6 +6,7 @@ import cx from "classnames";
 import withStyles from "@material-ui/core/styles/withStyles";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
+import { Link } from "react-router-dom";
 
 import footerStyle from "assets/jss/material-dashboard-pro-react/components/footerStyle";
 
@@ -16,11 +17,11 @@ function Footer({ ...props }) {
     [classes.containerFluid]: fluid,
     [classes.whiteColor]: white
   });
-  var anchor =
-    classes.a +
-    cx({
-      [" " + classes.whiteColor]: white
-    });
+  // var anchor =
+  //   classes.a +
+  //   cx({
+  //     [" " + classes.whiteColor]: white
+  //   });
   var block = cx({
     [classes.block]: true,
     [classes.whiteColor]: white
@@ -30,14 +31,16 @@ function Footer({ ...props }) {
       <div className={container}>
         <div className={classes.left}>
           <List className={classes.list}>
+          <Link to="/admin/dashboard" className={classes.inlineBlock}>
             <ListItem className={classes.inlineBlock}>
-              <a href="#home" className={block}>
-                {rtlActive ? "الصفحة الرئيسية" : "Home"}
+              <a href="#dashboard" className={block}>
+                Home
               </a>
             </ListItem>
+            </Link>
             <ListItem className={classes.inlineBlock}>
-              <a href="#company" className={block}>
-                {rtlActive ? "شركة" : "Company"}
+              <a href="https://github.com/matthew-collins1991" className={block} target="_blank" rel="noopener noreferrer">
+                Github
               </a>
             </ListItem>
             <ListItem className={classes.inlineBlock}>
@@ -46,20 +49,15 @@ function Footer({ ...props }) {
               </a>
             </ListItem>
             <ListItem className={classes.inlineBlock}>
-              <a href="#blog" className={block}>
-                {rtlActive ? "مدونة" : "Blog"}
+              <a href="https://medium.com/@matt_78825" className={block} target="_blank" rel="noopener noreferrer">
+                Blog
               </a>
             </ListItem>
           </List>
         </div>
         <p className={classes.right}>
           &copy; {1900 + new Date().getYear()}{" "}
-          <a href="https://www.creative-tim.com" className={anchor}>
-            {rtlActive ? "توقيت الإبداعية" : "Creative Tim"}
-          </a>
-          {rtlActive
-            ? ", مصنوعة مع الحب لشبكة الإنترنت أفضل"
-            : ", made with love for a better web"}
+             Matthew Collins made for organisation, beautifully organised.
         </p>
       </div>
     </footer>

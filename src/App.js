@@ -30,6 +30,12 @@ login = (data) => {
   })
 }
 
+clearState = () => {
+  this.setState({
+    userInfo: undefined
+  })
+}
+
 
 
 updateUserDetails = (user) => {
@@ -58,7 +64,7 @@ render(){
     <Router history={hist}>
     <Switch>
       <Route path="/admin" component={routerProps => (
-              <Admin userInfo={this.state.userInfo} companyData={this.state.companyData} {...routerProps} updateUserDetails={(user)=>this.updateUserDetails(user)}/>
+              <Admin userInfo={this.state.userInfo} companyData={this.state.companyData} clearState={()=>this.clearState()} {...routerProps} updateUserDetails={(user)=>this.updateUserDetails(user)}/>
               )}
           />
       <Route path="/signup" component={routerProps => (

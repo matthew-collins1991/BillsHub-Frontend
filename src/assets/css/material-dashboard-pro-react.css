@@ -21,9 +21,12 @@
 
 .ct-series-a .ct-point,
 .ct-series-a .ct-line,
-.ct-series-a .ct-bar,
-.ct-series-a .ct-slice-donut {
+.ct-series-a .ct-bar{
   stroke: rgba(255, 255, 255, 0.8);
+}
+
+.ct-series-a .ct-slice-donut {
+  stroke: rgba(124, 228, 171, 0.8);
 }
 
 .ct-label.ct-horizontal.ct-end {

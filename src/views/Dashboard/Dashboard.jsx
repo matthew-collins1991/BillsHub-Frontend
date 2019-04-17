@@ -13,17 +13,17 @@ import Warning from "@material-ui/icons/Warning";
 // import LocalOffer from "@material-ui/icons/LocalOffer";
 import Update from "@material-ui/icons/Update";
 // import ArrowUpward from "@material-ui/icons/ArrowUpward";
-import AccessTime from "@material-ui/icons/AccessTime";
+// import AccessTime from "@material-ui/icons/AccessTime";
 // import Accessibility from "@material-ui/icons/Accessibility";
-import BugReport from "@material-ui/icons/BugReport";
-import Code from "@material-ui/icons/Code";
-import Cloud from "@material-ui/icons/Cloud";
+// import BugReport from "@material-ui/icons/BugReport";
+// import Code from "@material-ui/icons/Code";
+// import Cloud from "@material-ui/icons/Cloud";
 // core components
 import GridItem from "components/Grid/GridItem.jsx";
 import GridContainer from "components/Grid/GridContainer.jsx";
-import Table from "components/Table/Table.jsx";
-import Tasks from "components/Tasks/Tasks.jsx";
-import CustomTabs from "components/CustomTabs/CustomTabs.jsx";
+// import Table from "components/Table/Table.jsx";
+// import Tasks from "components/Tasks/Tasks.jsx";
+// import CustomTabs from "components/CustomTabs/CustomTabs.jsx";
 // import Danger from "components/Typography/Danger.jsx";
 import Card from "components/Card/Card.jsx";
 import CardHeader from "components/Card/CardHeader.jsx";
@@ -36,7 +36,7 @@ import Timeline from "@material-ui/icons/Timeline";
 import chartsStyle from "assets/jss/material-dashboard-pro-react/views/chartsStyle.jsx";
 import "assets/css/material-dashboard-pro-react.css";
 
-import { bugs, website, server } from "variables/general.jsx";
+// import { bugs, website, server } from "variables/general.jsx";
 import dashboardStyle from "assets/jss/material-dashboard-pro-react/views/dashboardStyle.jsx";
 
 

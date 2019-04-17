@@ -20,24 +20,7 @@ import loginPageStyle from "assets/jss/material-dashboard-pro-react/views/loginP
 
 
 
-const styles = {
-  cardCategoryWhite: {
-    color: "rgba(255,255,255,.62)",
-    margin: "0",
-    fontSize: "14px",
-    marginTop: "0",
-    marginBottom: "0"
-  },
-  cardTitleWhite: {
-    color: "#FFFFFF",
-    marginTop: "0px",
-    minHeight: "auto",
-    fontWeight: "300",
-    fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
-    marginBottom: "3px",
-    textDecoration: "none"
-  }
-};
+
 
 class Login extends React.Component {
 
@@ -81,7 +64,7 @@ class Login extends React.Component {
     this.setState({ password: event.target.value });
 
   render(){
-    const { classes, ...rest } = this.props;
+    const { classes } = this.props;
     return (
       <div className={classes.wrapper} ref="wrapper">
       <div
@@ -114,6 +97,7 @@ class Login extends React.Component {
                       }}
                       inputProps={{
                         type: "email",
+                        value: 'matt@matt.com',
                         endAdornment: (
                           <InputAdornment position="end">
                             <Email className={classes.inputAdornmentIcon} />
@@ -135,6 +119,7 @@ class Login extends React.Component {
                       inputProps={{
                         type: "password",
                         onSubmit: this.handleSubmit,
+                        value: 'London',
                         endAdornment: (
                           <InputAdornment position="end">
                             <Icon className={classes.inputAdornmentIcon}>

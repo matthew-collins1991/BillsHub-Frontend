@@ -5,10 +5,10 @@ import Datetime from "react-datetime";
 // import DataListInput from 'react-datalist-input'
 // core components
 import GridItem from "components/Grid/GridItem.jsx";
-import PropTypes from 'prop-types';
+
 import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
-import Chip from '@material-ui/core/Chip';
+
 import deburr from 'lodash/deburr';
 
 import GridContainer from "components/Grid/GridContainer.jsx";
@@ -86,7 +86,7 @@ class NewUtilityCard extends React.Component {
     location: "",
     age: "",
     houseSize: "",
-    cost: "",
+    cost: null,
     paymentType: "",
     paymentFreq: "",
     billDate: "",
@@ -298,7 +298,7 @@ class NewUtilityCard extends React.Component {
     const { classes } = this.props;
     const { showHouseSize, showAge, showLocation } = this.state;
     const { inputValue, selectedItem } = this.state;
-    const { handleChange, handleCompanyChange } = this;
+    const { handleChange } = this;
 
     return (
       <div>
@@ -661,18 +661,18 @@ class NewUtilityCard extends React.Component {
               <CardFooter>
                 <GridItem style={{ display: "contents" }}>
                 <Link to="/admin/utilities">
-                  <Button color="primary" onClick={this.handleSubmitClick}>
-                    Submit New Bill
-                  </Button>
-                  </Link>
-                  <Link to="/admin/utilities">
-                    <Button
+                <Button
                       color="info"
                       onClick={this.handleCancelClick}
                       style={{ float: "right" }}
                     >
                       Back
                     </Button>
+                  </Link>
+                  <Link to="/admin/utilities">
+                  <Button color="primary" onClick={this.handleSubmitClick}>
+                    Submit New Bill
+                  </Button>
                   </Link>
                 </GridItem>
               </CardFooter>

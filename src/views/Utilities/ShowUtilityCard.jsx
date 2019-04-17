@@ -118,7 +118,7 @@ class ShowUtilityCard extends React.Component {
   state = {
     value: 0,
     billDate: "",
-    cost: "",
+    cost: 0,
     open: false,
     billData: {}
   };
@@ -161,12 +161,13 @@ minValue = () => {
   } 
 
   getTimeToNextBill = (date) => {
+
     let one_day=1000*60*60*24
-    let date1 = new Date(date)
+    let date1 = new Date(date[0].bill_date)
     let date2 = new Date()
     let diff = date2.getTime() - date1.getTime()
-    let diffPositive = Math.abs(diff)
-    return Math.ceil(diffPositive/one_day)
+    // let diffPositive = Math.abs(diff)
+    return Math.ceil(diff/one_day)
     }
 
   formatDate = (date) => {
@@ -190,7 +191,7 @@ minValue = () => {
   handleSubmitClick = () => {
     const bill = {
       bill_date: this.state.billDate,
-      cost: this.state.cost,
+      cost: parseInt(this.state.cost),
       utility_id: this.props.utilityData.id
     }
     this.props.addBillLocal(bill)
@@ -265,7 +266,11 @@ minValue = () => {
                     <Warning />
                   </Danger>
                   <p>
-                    This is {this.getTimeToNextBill(this.sortedBills())} days from now
+                    {
+                      this.getTimeToNextBill(this.sortedBills()) < 0 ? 
+                      `This is ${Math.abs(this.getTimeToNextBill(this.sortedBills()))} days from now` :
+                      `This was ${this.getTimeToNextBill(this.sortedBills())} days ago`
+                    }
                   </p>
                 </div>
               </CardFooter>
@@ -385,7 +390,6 @@ minValue = () => {
                       name: "cost",
                       onChange: this.handleBillChange,
                       type: "number",
-                      step: "0.01",
                       min: 0
                     }}
                   />

@@ -10,7 +10,7 @@ import Hidden from "@material-ui/core/Hidden";
 
 // material-ui icons
 import Menu from "@material-ui/icons/Menu";
-import MoreVert from "@material-ui/icons/MoreVert";
+// import MoreVert from "@material-ui/icons/MoreVert";
 import ViewList from "@material-ui/icons/ViewList";
 
 // core components
@@ -45,14 +45,7 @@ function AdminNavbar({ ...props }) {
                 <ViewList className={classes.sidebarMiniIcon} />
               </Button>
             ) : (
-              <Button
-                justIcon
-                round
-                color="white"
-                onClick={props.sidebarMinimize}
-              >
-                <MoreVert className={classes.sidebarMiniIcon} />
-              </Button>
+              null
             )}
           </div>
         </Hidden>
@@ -63,7 +56,7 @@ function AdminNavbar({ ...props }) {
           </Button>
         </div>
         <Hidden smDown implementation="css">
-          <AdminNavbarLinks rtlActive={rtlActive} />
+          <AdminNavbarLinks rtlActive={rtlActive} clearState={()=>this.props.clearState()}/>
         </Hidden>
         <Hidden mdUp implementation="css">
           <Button
