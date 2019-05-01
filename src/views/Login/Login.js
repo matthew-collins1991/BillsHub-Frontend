@@ -97,7 +97,7 @@ class Login extends React.Component {
                       }}
                       inputProps={{
                         type: "email",
-                        value: 'matt@matt.com',
+                        value: this.state.email,
                         endAdornment: (
                           <InputAdornment position="end">
                             <Email className={classes.inputAdornmentIcon} />
@@ -119,7 +119,7 @@ class Login extends React.Component {
                       inputProps={{
                         type: "password",
                         onSubmit: this.handleSubmit,
-                        value: 'London',
+                        value: this.state.password,
                         endAdornment: (
                           <InputAdornment position="end">
                             <Icon className={classes.inputAdornmentIcon}>
