@@ -275,7 +275,7 @@ allBillsArray = () => {
       <div>
         
         <GridContainer>
-          <GridItem xs={12} sm={12} md={12}>
+          <GridItem xs={11} sm={11} md={11}>
             <Card chart>
               <CardHeader color="success">
                 <ChartistGraph
@@ -296,6 +296,7 @@ allBillsArray = () => {
               </CardFooter>
             </Card>
           </GridItem>
+          <GridItem xs={false} sm={1} md={1} />
         </GridContainer>  
         <GridContainer>
           
@@ -321,7 +322,7 @@ allBillsArray = () => {
               </CardFooter>
             </Card>
           </GridItem>
-          <GridItem xs={12} sm={12} md={8}>
+          <GridItem xs={12} sm={11} md={7}>
             <Card chart>
               <CardHeader color="info">
                 <ChartistGraph
@@ -343,6 +344,7 @@ allBillsArray = () => {
               </CardFooter>
             </Card>
           </GridItem>
+          <GridItem xs={false} sm={1} md={1} />
         </GridContainer>
         <GridContainer>
         <GridItem xs={12} sm={12} md={6}>
@@ -367,7 +369,7 @@ allBillsArray = () => {
               </CardFooter>
             </Card>
           </GridItem>
-          <GridItem xs={12} sm={12} md={6}>
+          <GridItem xs={12} sm={12} md={5}>
             <Card>
               <CardHeader color="danger" icon>
                 <CardIcon color="danger">
