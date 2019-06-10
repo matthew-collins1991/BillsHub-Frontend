@@ -48,7 +48,7 @@ render() {
   return (
    
    <div>
-     <GridContainer>
+     <GridContainer style = {{paddingRight: 50 + "px"}}>
 
      <GridItem xs={12} sm={6} md={6} lg={4} style={{alignSelf: 'center'}}>
 

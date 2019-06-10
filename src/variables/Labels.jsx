@@ -22,7 +22,7 @@ const monthlyLabels = [
         let today = new Date()
         let monthInt = today.getMonth()
         // puts todays month in center of graph
-        if (monthInt > 9) {
+        if (monthInt > 10) {
         return monthlyLabels[monthInt-12+3]
         }else{
         return monthlyLabels[monthInt+3]

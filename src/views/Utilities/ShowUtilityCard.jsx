@@ -293,7 +293,7 @@ minValue = () => {
             </Card>
           </GridItem>
           
-          <GridItem xs={12} sm={4} md={4} lg={4}>
+          <GridItem xs={12} sm={4} md={3} lg={3}>
           <a href={'https://' + this.findCompany(utilityData).url} target="_blank" rel="noopener noreferrer">
             <Card>
               <CardHeader color="danger" stats icon>
@@ -312,6 +312,7 @@ minValue = () => {
             </Card>
             </a>
           </GridItem>
+          <GridItem xs={false} sm={1} md={1} />
         </GridContainer>
         <GridContainer>
           <GridItem xs={12} sm={12} md={6}>
@@ -341,7 +342,7 @@ minValue = () => {
               </CardFooter>
             </Card>
           </GridItem>
-          <GridItem xs={12} sm={12} md={6}>
+          <GridItem xs={12} sm={12} md={5}>
             <CustomTabs
               headerColor="primary"
               tabs={[
@@ -425,6 +426,7 @@ minValue = () => {
               ]}
             />
           </GridItem>
+          <GridItem xs={false} sm={false} md={1} />
         </GridContainer>
         <GridContainer>
         <GridItem xs={12} sm={12} md={6} >
